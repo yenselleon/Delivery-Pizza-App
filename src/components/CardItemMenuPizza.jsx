@@ -4,7 +4,6 @@ import { Badge, Box, Button, Image, useDisclosure } from "@chakra-ui/react";
 import React, { useContext, useMemo } from "react";
 import ModalItemMenuContext from "../context/ModalItemMenuContext/ModalItemMenuContext";
 import UiItemsContext from "../context/UiItemsContext/UiItemsContext";
-import { menuList } from "../helper/menuList";
 import pizzaPng from "../img/pizza.png";
 
 

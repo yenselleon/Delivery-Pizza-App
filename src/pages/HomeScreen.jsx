@@ -6,29 +6,32 @@ import Pagination from 'rc-pagination';
 import "rc-pagination/assets/index.css";
 import ModalCardItemMenu from '../components/ModalCardItemMenu'
 import UiItemsContext from '../context/UiItemsContext/UiItemsContext'
+import { pizzaMenuList } from '../db/menuPizzaList';
+
 
 
 const HomeScreen = () => {
 
-    const {dataItemsMenuPizza, getDataItemsMenu} = useContext(UiItemsContext)
+    const {dataItemsMenu, getDataItems} = useContext(UiItemsContext)
 
     useEffect(() => {
         
-        getDataItemsMenu();
+        getDataItems(pizzaMenuList, 'dataItemsPizza');
     }, [])
     
     /* const {loading, error, data} = useFetch() */
     const loading = false;
 
-    const data = dataItemsMenuPizza;
-
+    //Obtener data, la misma viene en una array que contiene varias opciones
+    const {dataItemsPizza : dataPizza} = dataItemsMenu;
+    
     const [pageNumber, setPageNumber] = useState(1);
 
     const itemsPerPage = 8;
     const lastPagesVisited = pageNumber * itemsPerPage;
     const newPagesVisited = lastPagesVisited - itemsPerPage;
 
-    const displayItems = data?.slice(newPagesVisited, lastPagesVisited);
+    const displayItems = dataPizza?.slice(newPagesVisited, lastPagesVisited);
     
 
     /* const pageCount = Math.ceil(data?.length / itemsPerPage); */   
@@ -79,20 +82,12 @@ const HomeScreen = () => {
                             )
                         : 
                             (
-                                displayItems.map( data=>
+                                displayItems.map( dataPizza=>
                                 
                                     (
-                                        <WrapItem key={data.id} m="0" className="prueba">
+                                        <WrapItem key={dataPizza.id} m="0" className="prueba">
                                             <CardItemMenuPizza 
-                                                id={data.id}
-                                                title={data.title}
-                                                url={data.url}
-                                                ingredient={data.ingredient}
-                                                imageThumbnail={data.imageThumbnail}
-                                                imageAlt={data.imageAlt}
-                                                price={data.price}
-                                                rating={data.rating}
-                                                reviewCount={data.reviewCount}
+                                                {...dataPizza}
                                             />
                                         </WrapItem>
 
@@ -109,7 +104,7 @@ const HomeScreen = () => {
                     defaultCurrent={0}
                     onChange={UpdatePage}
                     current={pageNumber}
-                    total={data?.length}
+                    total={dataPizza?.length}
                     pageSize={itemsPerPage}
                 />
             </Box>

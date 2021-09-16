@@ -1,5 +1,4 @@
 import React, {createContext, useReducer} from 'react';
-import { menuList } from '../../helper/menuList';
 import { types } from '../types';
 import UiItemsContextReducer from './UiItemsContextReducer';
 
@@ -8,7 +7,9 @@ import UiItemsContextReducer from './UiItemsContextReducer';
 const UiItemsContext = createContext();
 
 const initialState = {
-    dataItemsMenuPizza: [],
+    dataItemsPizza: [],
+    dataItemsDrinks: [],
+    dataItemsDressings: [],
     selectedItem: null,
 }
 
@@ -17,18 +18,21 @@ const UiItemsContextProvider = ({children})=> {
 
     const [state, dispatch] = useReducer(UiItemsContextReducer, initialState)
 
-    const getDataItemsMenu = ()=>{
+    const getDataItems = (data, pushArrayState)=>{
 
         dispatch({
-            type: types.getDataItemsMenuPizza,
-            payload: menuList,
+            type: types.getDataItems,
+            payload: {
+                data,
+                pushArrayState,
+            },
         })
     }
 
     const getItemMenuById = (id)=> {
 
 
-        const filterItemMenu = state.dataItemsMenuPizza.filter(item => item.id === id);
+        const filterItemMenu = state.dataItemsPizza.filter(item => item.id === id);
 
         dispatch({
             type: types.getItemMenyById,
@@ -39,8 +43,12 @@ const UiItemsContextProvider = ({children})=> {
     }
 
     const data = {
-        dataItemsMenuPizza: state.dataItemsMenuPizza,
-        getDataItemsMenu,
+        dataItemsMenu: {
+            dataItemsPizza: state.dataItemsPizza,
+            dataItemsDrinks: state.dataItemsDrinks,
+            dataItemsDressings: state.dataItemsDressings,
+        },
+        getDataItems,
         getItemMenuById,
         selectedItem: state.selectedItem,
     }

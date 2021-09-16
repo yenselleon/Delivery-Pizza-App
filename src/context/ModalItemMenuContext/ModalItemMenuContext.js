@@ -15,7 +15,6 @@ const ModalItemMenuContextProvider = ({children})=> {
 
     const [state, dispatch] = useReducer(ModalItemMenuContextReducer, initialState)
 
-    const {dataItemsMenuPizza: dataMenu} = useContext(UiItemsContext);
 
     const { isOpen, onOpen:onOpenModalCardMenu, onClose } = useDisclosure()
 

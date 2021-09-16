@@ -77,13 +77,17 @@ export const CheckArrayList = () => {
                                 {arrayInfo.map((item, indexArryInfo) => (
                                 
                                     ( values.pizzaList.bebidas.some(product => product.id === item.id)) 
-                                    ? 
+                                    ?
                                         <HStack key={item.id}>
                                             <Text>{item.name}</Text>
                                             <Text>{item.price}$</Text>
                                             <HStack>
                                                 <Button>-</Button>
-                                                <Text>{item.quanty}</Text>
+                                                <Text>
+                                                    {
+                                                        values.pizzaList.bebidas.find(findObject => findObject.id === item.id)["quanty"]
+                                                    }
+                                                </Text>
                                                 <Button
                                                     
                                                     onClick={()=> handleQuanty(form, item)}

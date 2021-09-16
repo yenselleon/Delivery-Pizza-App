@@ -5,10 +5,10 @@ const UiItemsContextReducer = (state , action) => {
     const {type, payload} = action;
 
     switch (type) {
-        case types.getDataItemsMenuPizza:
+        case types.getDataItems:
             return {
                 ...state,
-                dataItemsMenuPizza: payload,
+                [payload.pushArrayState]: payload.data,
             }
             
         case types.getItemMenyById:
