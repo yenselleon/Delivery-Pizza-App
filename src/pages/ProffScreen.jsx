@@ -1,10 +1,10 @@
 import React from 'react'
-import {CheckArrayList} from '../formikModels/CheckListArray'
+import Navbar from '../components/Navbar'
 
 const ProffScreen = () => {
     return (
         <>
-            <CheckArrayList/>
+            <Navbar/>
         </>
     )
 }

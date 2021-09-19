@@ -8,31 +8,20 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-  FormLabel,
-  Input,
-  FormControl,
   Divider,
   Flex,
   Box,
   Image,
   Text,
-  Radio,
-  RadioGroup,
-  Stack,
-  Icon,
-  CheckboxGroup,
-  Checkbox,
   Textarea,
   Skeleton,
 } from "@chakra-ui/react";
-import { AddIcon, MinusIcon } from "@chakra-ui/icons";
-import { FieldArray, Form, Formik } from "formik";
+import { Field, FieldArray, Form, Formik } from "formik";
 
 import ModalItemMenuContext from "../context/ModalItemMenuContext/ModalItemMenuContext";
 import UiItemsContext from "../context/UiItemsContext/UiItemsContext";
 
 import IncrementDecrementBtn from "./btns/IncrementDecrementBtn";
-import IncrementBtn from "./btns/IncrementBtn";
 import SizeComponent from "./modalCartItemComponents/SizeComponent";
 import DrinkSectionComponent from "./modalCartItemComponents/DrinkSectionComponent";
 import DressingsSectionComponent from "./modalCartItemComponents/DressingsSectionComponent";
@@ -107,15 +96,20 @@ const ModalCardItemMenu = () => {
                         height={["auto", "auto", "280px"]}
                         alt={imageAlt}
                       />
+                      {/* Seccion de comentarios adicionales */}
+                      <Field name="tikectList.comment">
+                        {({field})=> (
+                          <Textarea
+                            type="text"
+                            placeholder="Aditional comment"
+                            size="sm"
+                            resize="none"
+                            my="2"
+                            {...field}
+                          />
 
-                      <Textarea
-                        /* value={value}
-                            onChange={handleInputChange} */
-                        placeholder="Here is a sample placeholder"
-                        size="sm"
-                        resize="none"
-                        my="2"
-                      />
+                        )}
+                      </Field>
                     </Box>
                       {/* Right side */}
                     <Box width={["100", "100", "50%"]} p="2">
