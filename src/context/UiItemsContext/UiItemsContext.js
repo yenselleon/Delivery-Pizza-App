@@ -10,6 +10,7 @@ const initialState = {
     dataItemsPizza: [],
     dataItemsDrinks: [],
     dataItemsDressings: [],
+    itemsShoppingCart: [],
     selectedItem: null,
 }
 
@@ -42,15 +43,28 @@ const UiItemsContextProvider = ({children})=> {
         
     }
 
+    const pushItemToShoppingCart = (item)=> {
+        console.log({item})
+
+        dispatch({
+            type: types.pushItemToShoppingCart,
+            payload: item,
+        })
+
+        
+    }
+
     const data = {
         dataItemsMenu: {
             dataItemsPizza: state.dataItemsPizza,
             dataItemsDrinks: state.dataItemsDrinks,
             dataItemsDressings: state.dataItemsDressings,
         },
+        selectedItem: state.selectedItem,
+        itemsShoppingCart: state.itemsShoppingCart,
         getDataItems,
         getItemMenuById,
-        selectedItem: state.selectedItem,
+        pushItemToShoppingCart,
     }
 
     return (

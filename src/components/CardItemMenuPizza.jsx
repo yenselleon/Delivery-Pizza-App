@@ -72,8 +72,8 @@ const CardItemMenuPizza = (data) => {
             ml="auto"
             colorScheme="red"
             onClick={()=> {
-              onOpenModalCardMenu();
               getItemMenuById(id);
+              onOpenModalCardMenu();
             }}
           >
             <SmallAddIcon />

@@ -17,6 +17,7 @@ import {
   Skeleton,
 } from "@chakra-ui/react";
 import { Field, FieldArray, Form, Formik } from "formik";
+import {v4 as uuidv4} from 'uuid'
 
 import ModalItemMenuContext from "../context/ModalItemMenuContext/ModalItemMenuContext";
 import UiItemsContext from "../context/UiItemsContext/UiItemsContext";
@@ -28,6 +29,7 @@ import DressingsSectionComponent from "./modalCartItemComponents/DressingsSectio
 
 const initialValues = {
   tikectList: {
+    id: uuidv4(),
     pizzas: [],
     drinks: [],
     dressings: [],
@@ -39,19 +41,12 @@ const ModalCardItemMenu = () => {
   const initialRef = React.useRef();
 
   const { isOpen, onClose } = useContext(ModalItemMenuContext);
-  const { selectedItem } = useContext(UiItemsContext);
+  const { selectedItem, pushItemToShoppingCart, itemsShoppingCart } = useContext(UiItemsContext);
 
-  const [isLoadingImage, setIsLoadingImage] = useState(false);
 
   const { imageUrl, title, ingredient, imageAlt, price } = !selectedItem
                                                                 ? false
                                                                 : selectedItem[0];
-
-  const handleLoadImage = (...data) => {
-    console.log(data);
-    setIsLoadingImage(true);
-  };
-  console.log(isLoadingImage);
   return (
     selectedItem && (
       <Modal
@@ -69,6 +64,7 @@ const ModalCardItemMenu = () => {
           onSubmit={async (values) => {
             await new Promise((r) => setTimeout(r, 500));
             /* alert(JSON.stringify(values, null, 2)); */
+            pushItemToShoppingCart({...values.tikectList, imageUrl: imageUrl, title: title})
             console.log(values)
           }}
         >
@@ -90,7 +86,6 @@ const ModalCardItemMenu = () => {
                       alignSelf={["center", "center", "start"]}
                     >
                       <Image
-                        onLoad={handleLoadImage}
                         src={imageUrl}
                         borderRadius="lg"
                         height={["auto", "auto", "280px"]}

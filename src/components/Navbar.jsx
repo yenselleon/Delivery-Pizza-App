@@ -1,7 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {Flex,
-        Switch, 
-        useColorMode, 
         Button, 
         Icon, 
         Menu,
@@ -17,35 +15,37 @@ import {Flex,
         IconButton,
         HStack,
         Stack,
+        Collapse,
+        useDisclosure,
         Input} from '@chakra-ui/react';
-import {SearchIcon} from '@chakra-ui/icons';
+import {SearchIcon, ChevronDownIcon} from '@chakra-ui/icons';
 import {FaShoppingCart, FaUserAlt, FaHome, FaSearch} from 'react-icons/fa';
+import TableItemsShoppingCarT from './TableItemsShoppingCart'
+import UiItemsContext from '../context/UiItemsContext/UiItemsContext';
 
 const Navbar = () => {
+    const { isOpen: isOpenColapse, onToggle } = useDisclosure()
+    const { itemsShoppingCart } = useContext(UiItemsContext);
 
-    const {colorMode, toggleColorMode} = useColorMode()
-    const isDark = colorMode === 'dark'
-
+    console.log({itemsShoppingCart})
     return (
-        <Box width="100%" height="100vh" border="1px solid red">
 
             <Flex
-                pos="fixed"
+                pos={["fixed", "sticky"]}
                 align="center"
-                width="100%"
+                width="100vw"
                 boxShadow={['dark-lg', 'lg', 'lg', 'lg']}
                 padding="4"
                 top={['inherit','0','0','0']}
                 bottom={['0', 'inherit', 'inherit', 'inherit']}
-                bg={['brand.base', "initial"]}
+                bg={['brand.base', "whiteAlpha.900"]}
+                zIndex="9999999"
             >
     
                 <Flex
                     width='inherit'
                     align="center"
                     display={['none', 'flex', 'flex', 'flex']}
-                    
-
                 >
                     {/* logo */}
                     <Flex width="100px" border="1px solid red">
@@ -94,42 +94,85 @@ const Navbar = () => {
                                         overflowY="scroll"
                                     >
                                         {/* none item section */}
-                                        {/* <MenuItem
-                                            height="100%"
-                                            width="100%"
-                                        >
-                                            <Flex
-                                                direction="column"
-                                                justifyContent="center"
-                                                align="center"
-                                                color="gray.400"
-                                            >
-        
-                                                <Icon
-                                                    as={FaShoppingCart}
-                                                    w={8} h={8}
-                                                />
-                                                <Text
-                                                    as="span"
-                                                >
-                                                    You dont have any product on your cart shopping
-                                                </Text>
-        
-                                            </Flex>
-                                            
-                                        </MenuItem> */}
-                                        <MenuItem
-                                            height="150"
-                                            width="full"
-                                        >
-                                            <Flex
-                                                padding="2"
-                                            >
-                                                <Image>
-        
-                                                </Image>
-                                            </Flex>
-                                        </MenuItem>
+                                        {
+                                            (itemsShoppingCart)
+                                                ?
+                                                    <MenuItem
+                                                        height="100%"
+                                                        width="100%"
+                                                    >
+                                                        <Flex
+                                                            direction="column"
+                                                            justifyContent="center"
+                                                            align="center"
+                                                            color="gray.400"
+                                                        >
+                    
+                                                            <Icon
+                                                                as={FaShoppingCart}
+                                                                w={8} h={8}
+                                                            />
+                                                            <Text
+                                                                as="span"
+                                                                textAlign="center"
+                                                            >
+                                                                You dont have any product on your cart shopping
+                                                            </Text>
+                    
+                                                        </Flex>
+                                                        
+                                                    </MenuItem>
+                                                :
+
+                                                    <MenuItem
+                                                        height="auto"
+                                                        width="full"
+                                                        display="block"
+                                                        borderTop="1px solid whitesmoke"
+                                                        borderBottom="1px solid whitesmoke"
+                                                    >
+                                                        <Flex
+                                                            width="inherit"
+                                                            height="inherit"
+                                                            align="center"
+                                                        >
+                                                            <Image
+                                                                src={itemsShoppingCart[0].imageUrl}
+                                                                height="100px"
+                                                                width="100px"
+                                                                p="1"
+                                                                borderRadius="lg"
+
+                                                            />
+                                                            <Box
+                                                                height="inherit"
+                                                                width="100%"
+                                                                isTruncated
+                                                                px="2"
+                                                            >
+                                                                {/* Price Section */}
+                                                                <Text textAlign="end" fontWeight="bold" color="brand.base">10$</Text>
+                                                                <Text as="span" fontWeight="semibold">{itemsShoppingCart.title}</Text>
+                                                                <Text color="gray.400">{itemsShoppingCart.length} items</Text>
+                                                                <Box
+                                                                    onClick={onToggle}
+                                                                    display="flex"
+                                                                    justifyContent="flex-end"
+                                                                    fontSize="24"
+                                                                >
+                                                                    <Icon as={ChevronDownIcon} />
+
+                                                                </Box>
+                                                            </Box>
+                                                        </Flex>
+                                                        <Collapse in={isOpenColapse} animateOpacity>
+                                                            
+                                                            <TableItemsShoppingCarT />
+                                                            
+                                                        </Collapse>
+                                                    </MenuItem>
+                                                
+                                            }
                                     </MenuList>
                                 </>
                             )}
@@ -153,14 +196,10 @@ const Navbar = () => {
 
                         />
 
-                        <Switch
-                            color="greem"
-                            onChange={toggleColorMode}
-                            isChecked={isDark}
-                        />
                     </HStack>
                 </Flex>
-    
+                
+                {/* Navbar Mobile Mode */}
                 <Stack 
                     direction="row"
                     justifyContent="space-around"
@@ -209,7 +248,6 @@ const Navbar = () => {
             </Flex>
            
 
-        </Box>
     )
 }
 
