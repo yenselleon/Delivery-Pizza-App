@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
-import { Box, HStack, Text, Stack, Flex } from "@chakra-ui/layout";
+import { Box, Text, Stack, Flex } from "@chakra-ui/layout";
 import { FormControl, FormLabel, CheckboxGroup, Checkbox } from "@chakra-ui/react";
-import { useField, useFormikContext } from "formik";
+import { useField } from "formik";
 import UiItemsContext from "../../context/UiItemsContext/UiItemsContext";
 
 import { menuDressingsList } from "../../db/menuDressingsList";
@@ -10,11 +10,12 @@ const DressingsSectionComponent = () => {
     
   const { dataItemsMenu, getDataItems } = useContext(UiItemsContext);
 
-  const { values } = useFormikContext();
-  const { pizzaList } = values;
+  /* const { values } = useFormikContext();
+  const { pizzaList } = values; */
 
     useEffect(() => {
         getDataItems(menuDressingsList, "dataItemsDressings");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
   const { dataItemsDressings } = dataItemsMenu;

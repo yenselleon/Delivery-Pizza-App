@@ -6,26 +6,66 @@ import {Table,
         Tfoot,
         Td,
         TableCaption,
-        Tbody} from '@chakra-ui/react'
+        Tbody,
+        Text,
+        } from '@chakra-ui/react'
 
-const TableItemsShoppingCart = () => {
+const TableItemsShoppingCart = ({...item}) => {
+
   return (
-    <Table variant="striped" colorScheme="teal" border="1px solid green" mt="1">
-      <TableCaption>Imperial to metric conversion factors</TableCaption>
+    <Table variant="unstyled" colorScheme="teal"  mt="1">
+      <TableCaption><Text as="span" color="gray.400">Comments:</Text> {item.comment}</TableCaption>
       <Thead>
-        <Tr>
-          <Th>Item</Th>
+        <Tr bg="gray.300">
+          <Th>Pizzas</Th>
           <Th isNumeric>Price</Th>
         </Tr>
       </Thead>
-      <Tbody>
-        <Tr>
-          <Td>Small</Td>
-          <Td isNumeric>25.4</Td>
-        </Tr>
-      </Tbody>
+
+        {
+          (item.pizzas.length !== 0) &&
+            <Tbody >
+              {item.pizzas.map((pizza, index)=> (
+              <Tr key={pizza.id}>
+                <Td>{pizza.size}</Td>
+                <Td isNumeric>{pizza.price}$</Td>
+              </Tr> 
+              ))}
+            </Tbody>
+        }
+        {
+          (item.drinks.length !== 0) &&
+            <Tbody >
+              <Tr bg="gray.200">
+                <Td>Drinks</Td>
+                <Td isNumeric>Price</Td>
+              </Tr> 
+              {item.drinks.map((drink, index)=> (
+                <Tr key={drink.id}>
+                  <Td>{drink.drink}</Td>
+                  <Td isNumeric>{drink.price}$</Td>
+                </Tr> 
+              ))}
+            </Tbody>
+        }
+        {
+          (item.dressings.length !== 0) &&
+            <Tbody >
+                <Tr bg="gray.200">
+                  <Td>Dressings</Td>
+                  <Td isNumeric>Price</Td>
+                </Tr> 
+                {item.dressings.map((dressing, index)=> (
+                <Tr key={index}>
+                  <Td>{dressing}</Td>
+                  <Td isNumeric>1$</Td>
+                </Tr> 
+                ))}
+
+            </Tbody>
+        }
       <Tfoot>
-        <Tr>
+        <Tr bg="gray.400">
           <Th>Total</Th>
           <Th isNumeric>10$</Th>
         </Tr>

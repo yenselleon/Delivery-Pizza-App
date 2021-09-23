@@ -9,22 +9,17 @@ import {Flex,
         Text, 
         InputGroup, 
         InputLeftElement,
-        Image,
         Spacer,
-        Box,
         IconButton,
         HStack,
         Stack,
-        Collapse,
-        useDisclosure,
         Input} from '@chakra-ui/react';
-import {SearchIcon, ChevronDownIcon} from '@chakra-ui/icons';
+import {SearchIcon} from '@chakra-ui/icons';
 import {FaShoppingCart, FaUserAlt, FaHome, FaSearch} from 'react-icons/fa';
-import TableItemsShoppingCarT from './TableItemsShoppingCart'
 import UiItemsContext from '../context/UiItemsContext/UiItemsContext';
+import CardItemShoppingCart from './CardItemShoppingCart';
 
 const Navbar = () => {
-    const { isOpen: isOpenColapse, onToggle } = useDisclosure()
     const { itemsShoppingCart } = useContext(UiItemsContext);
 
     console.log({itemsShoppingCart})
@@ -75,7 +70,7 @@ const Navbar = () => {
                         <Menu
                             mx="2"
                             closeOnSelect={false}
-                            
+
                         >
                             {({ isOpen}) => (
                                 <>
@@ -84,7 +79,7 @@ const Navbar = () => {
                                         as={Button} 
                                         leftIcon={<FaShoppingCart />}
                                     >
-                                        {isOpen ? "Close" : "Open"}
+                                        {itemsShoppingCart.length}
                                     </MenuButton>
                                     <MenuList
                                         height="sm"
@@ -95,7 +90,7 @@ const Navbar = () => {
                                     >
                                         {/* none item section */}
                                         {
-                                            (itemsShoppingCart)
+                                            (itemsShoppingCart.length === 0)
                                                 ?
                                                     <MenuItem
                                                         height="100%"
@@ -123,54 +118,10 @@ const Navbar = () => {
                                                         
                                                     </MenuItem>
                                                 :
+                                                    itemsShoppingCart.map((item, index) => (
 
-                                                    <MenuItem
-                                                        height="auto"
-                                                        width="full"
-                                                        display="block"
-                                                        borderTop="1px solid whitesmoke"
-                                                        borderBottom="1px solid whitesmoke"
-                                                    >
-                                                        <Flex
-                                                            width="inherit"
-                                                            height="inherit"
-                                                            align="center"
-                                                        >
-                                                            <Image
-                                                                src={itemsShoppingCart[0].imageUrl}
-                                                                height="100px"
-                                                                width="100px"
-                                                                p="1"
-                                                                borderRadius="lg"
-
-                                                            />
-                                                            <Box
-                                                                height="inherit"
-                                                                width="100%"
-                                                                isTruncated
-                                                                px="2"
-                                                            >
-                                                                {/* Price Section */}
-                                                                <Text textAlign="end" fontWeight="bold" color="brand.base">10$</Text>
-                                                                <Text as="span" fontWeight="semibold">{itemsShoppingCart.title}</Text>
-                                                                <Text color="gray.400">{itemsShoppingCart.length} items</Text>
-                                                                <Box
-                                                                    onClick={onToggle}
-                                                                    display="flex"
-                                                                    justifyContent="flex-end"
-                                                                    fontSize="24"
-                                                                >
-                                                                    <Icon as={ChevronDownIcon} />
-
-                                                                </Box>
-                                                            </Box>
-                                                        </Flex>
-                                                        <Collapse in={isOpenColapse} animateOpacity>
-                                                            
-                                                            <TableItemsShoppingCarT />
-                                                            
-                                                        </Collapse>
-                                                    </MenuItem>
+                                                        <CardItemShoppingCart key={item.id} {...item}/>
+                                                    ))
                                                 
                                             }
                                     </MenuList>

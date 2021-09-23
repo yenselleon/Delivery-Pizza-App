@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -14,7 +14,6 @@ import {
   Image,
   Text,
   Textarea,
-  Skeleton,
 } from "@chakra-ui/react";
 import { Field, FieldArray, Form, Formik } from "formik";
 import {v4 as uuidv4} from 'uuid'
@@ -26,10 +25,10 @@ import IncrementDecrementBtn from "./btns/IncrementDecrementBtn";
 import SizeComponent from "./modalCartItemComponents/SizeComponent";
 import DrinkSectionComponent from "./modalCartItemComponents/DrinkSectionComponent";
 import DressingsSectionComponent from "./modalCartItemComponents/DressingsSectionComponent";
+import { totalTikectsList } from "../helper/totalTicketsList";
 
 const initialValues = {
   tikectList: {
-    id: uuidv4(),
     pizzas: [],
     drinks: [],
     dressings: [],
@@ -41,7 +40,7 @@ const ModalCardItemMenu = () => {
   const initialRef = React.useRef();
 
   const { isOpen, onClose } = useContext(ModalItemMenuContext);
-  const { selectedItem, pushItemToShoppingCart, itemsShoppingCart } = useContext(UiItemsContext);
+  const { selectedItem, pushItemToShoppingCart, /* itemsShoppingCart */ } = useContext(UiItemsContext);
 
 
   const { imageUrl, title, ingredient, imageAlt, price } = !selectedItem
@@ -64,8 +63,10 @@ const ModalCardItemMenu = () => {
           onSubmit={async (values) => {
             await new Promise((r) => setTimeout(r, 500));
             /* alert(JSON.stringify(values, null, 2)); */
-            pushItemToShoppingCart({...values.tikectList, imageUrl: imageUrl, title: title})
-            console.log(values)
+
+            const total = totalTikectsList({...values.tikectList});
+
+            pushItemToShoppingCart({...values.tikectList, id: uuidv4(), imageUrl: imageUrl, title: title, total: total})
           }}
         >
           {({ values}) => (

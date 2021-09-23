@@ -1,10 +1,9 @@
 /* eslint-disable react/jsx-no-duplicate-props */
 import { SmallAddIcon, StarIcon } from "@chakra-ui/icons";
-import { Badge, Box, Button, Image, useDisclosure } from "@chakra-ui/react";
-import React, { useContext, useMemo } from "react";
+import { Badge, Box, Button, Image } from "@chakra-ui/react";
+import React, { useContext } from "react";
 import ModalItemMenuContext from "../context/ModalItemMenuContext/ModalItemMenuContext";
 import UiItemsContext from "../context/UiItemsContext/UiItemsContext";
-import pizzaPng from "../img/pizza.png";
 
 
 
@@ -60,7 +59,7 @@ const CardItemMenuPizza = (data) => {
 
       <Box p="1"     overflow="hidden" width="100%">
         <Box d="flex" alignItems="baseline" alignItems="center">
-          <Badge borderRadius="full" px="2" colorScheme="teal">
+          <Badge borderRadius="full" px="2" colorScheme="red">
             Popular
           </Badge>
           <Button 
@@ -101,7 +100,7 @@ const CardItemMenuPizza = (data) => {
             .map((_, i) => (
               <StarIcon
                 key={i}
-                color={i < rating ? "teal.500" : "gray.300"}
+                color={i < rating ? "red.500" : "gray.300"}
               />
             ))}
           <Box as="span" ml="2" color="gray.600" fontSize="sm">

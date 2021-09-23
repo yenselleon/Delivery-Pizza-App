@@ -1,7 +1,5 @@
 import { useDisclosure } from '@chakra-ui/react';
-import React, { createContext, useContext, useReducer } from 'react';
-import { types } from '../types';
-import UiItemsContext from '../UiItemsContext/UiItemsContext';
+import React, { createContext, useReducer } from 'react';
 import { ModalItemMenuContextReducer } from './ModalItemMenyContextReducer';
 
 const ModalItemMenuContext = createContext();
@@ -13,7 +11,7 @@ const initialState = {
 
 const ModalItemMenuContextProvider = ({children})=> {
 
-    const [state, dispatch] = useReducer(ModalItemMenuContextReducer, initialState)
+    const [state /* dispatch */] = useReducer(ModalItemMenuContextReducer, initialState)
 
 
     const { isOpen, onOpen:onOpenModalCardMenu, onClose } = useDisclosure()

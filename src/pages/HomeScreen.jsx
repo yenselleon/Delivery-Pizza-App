@@ -19,6 +19,7 @@ const HomeScreen = () => {
         
         //Push data on dataItemsMenu
         getDataItems(pizzaMenuList, 'dataItemsPizza');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
     /* const {loading, error, data} = useFetch() */

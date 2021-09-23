@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
-import { Button } from '@chakra-ui/button'
-import { Box, HStack, Text, Stack, Flex} from '@chakra-ui/layout'
+import { Box, Text, Stack, Flex} from '@chakra-ui/layout'
 import { FormControl, FormLabel } from '@chakra-ui/react'
-import { FieldArray, useFormikContext } from 'formik'
+import { useFormikContext } from 'formik'
 import UiItemsContext from "../../context/UiItemsContext/UiItemsContext";
 
 
@@ -12,7 +11,7 @@ import IncrementBtn from "../btns/IncrementBtn";
 
 const SizeComponent = (props) => {
 
-    const {remove, push, form} = props;
+    const {push} = props;
 
     const {values} = useFormikContext();
     const { tikectList } = values;

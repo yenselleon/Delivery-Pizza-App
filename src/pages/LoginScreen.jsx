@@ -1,11 +1,8 @@
 import React from 'react'
-import { Heading } from '@chakra-ui/layout'
 import { Box,
          Flex,
          Text,
          FormControl,
-         FormLabel,
-         FormErrorMessage,
          Input,
          FormHelperText,
          Button, } from '@chakra-ui/react'

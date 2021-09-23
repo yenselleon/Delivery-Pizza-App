@@ -44,6 +44,24 @@ const UiItemsContextProvider = ({children})=> {
     }
 
     const pushItemToShoppingCart = (item)=> {
+
+        dispatch({
+            type: types.pushItemToShoppingCart,
+            payload: item,
+        })
+
+        
+    }
+
+    const removeItemToShoppingCart = (id) => {
+
+        dispatch({
+            type: types.removeItemShoppingCart,
+            payload: id
+        })
+    }
+
+    const getTotalItemsOnCart = (item = [])=> {
         console.log({item})
 
         dispatch({
@@ -65,6 +83,8 @@ const UiItemsContextProvider = ({children})=> {
         getDataItems,
         getItemMenuById,
         pushItemToShoppingCart,
+        getTotalItemsOnCart,
+        removeItemToShoppingCart,
     }
 
     return (

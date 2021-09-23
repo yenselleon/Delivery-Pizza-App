@@ -26,6 +26,12 @@ const UiItemsContextReducer = (state , action) => {
                 ],
             }
 
+        case types.removeItemShoppingCart:
+            return {
+                ...state,
+                itemsShoppingCart: state.itemsShoppingCart.filter( item => item.id !== payload)
+            }
+
         default:
             return state;
     }

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Heading } from "@chakra-ui/layout";
-import { Box, Container, Flex, Image, Text, keyframes, ButtonGroup, Button } from "@chakra-ui/react";
+import { Box, Flex, Image, Text, keyframes, ButtonGroup, Button } from "@chakra-ui/react";
 import pizzaPng from "../img/pizza.png";
 
 

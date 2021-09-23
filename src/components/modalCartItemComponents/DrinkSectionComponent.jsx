@@ -1,8 +1,7 @@
 import React, { useContext, useEffect } from "react";
-import { Button } from "@chakra-ui/button";
-import { Box, HStack, Text, Stack, Flex } from "@chakra-ui/layout";
+import { Box, Text, Stack, Flex } from "@chakra-ui/layout";
 import { FormControl, FormLabel } from "@chakra-ui/react";
-import { FieldArray, useFormikContext } from "formik";
+import { useFormikContext } from "formik";
 import UiItemsContext from "../../context/UiItemsContext/UiItemsContext";
 
 import IncrementDecrementBtn from "../btns/IncrementDecrementBtn";
@@ -12,7 +11,7 @@ import { drinksMenuList } from "../../db/menuDrikList";
 const DrinkSectionComponent = (props) => {
 
     
-  const { push, form, remove } = props;
+  const { push } = props;
 
   const { dataItemsMenu, getDataItems } = useContext(UiItemsContext);
 
@@ -21,6 +20,7 @@ const DrinkSectionComponent = (props) => {
 
   useEffect(() => {
     getDataItems(drinksMenuList, "dataItemsDrinks");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const { dataItemsDrinks } = dataItemsMenu;
