@@ -93,7 +93,7 @@ const Navbar = () => {
                                         {itemsShoppingCart.length}
                                     </MenuButton>
                                     <MenuList
-                                        height="sm"
+                                        maxHeight="xs"
                                         width="sm"
                                         overflow="scroll"
                                         overflowX="hidden"
