@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -40,12 +40,19 @@ const ModalCardItemMenu = () => {
   const initialRef = React.useRef();
 
   const { isOpen, onClose } = useContext(ModalItemMenuContext);
-  const { selectedItem, pushItemToShoppingCart, /* itemsShoppingCart */ } = useContext(UiItemsContext);
+  const { selectedItem, pushItemToShoppingCart, itemsShoppingCart} = useContext(UiItemsContext);
 
 
   const { imageUrl, title, ingredient, imageAlt, price } = !selectedItem
                                                                 ? false
                                                                 : selectedItem[0];
+
+    useEffect(() => {
+      
+      localStorage.setItem('itemsShoppingCart', JSON.stringify(itemsShoppingCart))
+      
+    }, [itemsShoppingCart])
+    
   return (
     selectedItem && (
       <Modal
@@ -57,16 +64,17 @@ const ModalCardItemMenu = () => {
         scrollBehavior="inside"
         size="6xl"
       >
-        <ModalOverlay height="100%" />
+        <ModalOverlay height="100%" width="100%"/>
         <Formik
           initialValues={initialValues}
           onSubmit={async (values) => {
             await new Promise((r) => setTimeout(r, 500));
             /* alert(JSON.stringify(values, null, 2)); */
 
-            const total = totalTikectsList({...values.tikectList});
+            const {total, items:itemsTotal} = totalTikectsList({...values.tikectList});
 
-            pushItemToShoppingCart({...values.tikectList, id: uuidv4(), imageUrl: imageUrl, title: title, total: total})
+            pushItemToShoppingCart({...values.tikectList, id: uuidv4(), imageUrl: imageUrl, title: title, total: total, itemsCount: itemsTotal})
+            
           }}
         >
           {({ values}) => (

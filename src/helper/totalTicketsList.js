@@ -1,29 +1,42 @@
 /* {
     "pizzas": [
         {
-            "id": "b1d143da-a56c-4010-941a-9f008022196f",
+            "id": "37463dbd-bea1-4f2d-bfbf-265bbbe6591b",
             "size": "Small",
             "price": 8,
+            "quanty": 1
+        },
+        {
+            "id": "b65dd04d-e772-4d85-b349-b7a78e146265",
+            "size": "Medium",
+            "price": 12,
             "quanty": 1
         }
     ],
     "drinks": [
         {
-            "id": "b4d97df8-9618-40fa-8077-0b302850d7f5",
+            "id": "267d9f6d-306c-49ad-8e7a-ebb5208ecf9b",
             "drink": "Coca-Cola",
             "price": 3,
-            "quanty": 2
+            "quanty": 1
         }
     ],
     "dressings": [
-        "Mayonnaise"
+        "Mayonnaise",
+        "Barbecue Sauce"
     ],
-    "comment": "adasd"
+    "comment": "asd",
+    "id": "2f0ad045-6ba2-42ec-9dc1-409d35a542ce",
+    "imageUrl": "https://i.ibb.co/PNrKzR5/Garlic-Fingers-min.jpg",
+    "title": "Garlic Fingers",
+    "total": 25,
+    "itemsCount": 5
 } */
 
 const totalTikectsList = (ticket = {})=> {
 
     let total = 0;
+    let items = 0;
     
     const keysTicketObject = Object.keys(ticket);
 
@@ -33,6 +46,7 @@ const totalTikectsList = (ticket = {})=> {
         if(item === "dressings"){
             ticket[item].forEach(()=> {
                 total += 1;
+                items += 1;
             })
         }
 
@@ -44,6 +58,7 @@ const totalTikectsList = (ticket = {})=> {
                 ticket[item].forEach((object , index)=> {
 
                     total += object.price * object.quanty;
+                    items += object.quanty;
                 })
 
             } 
@@ -52,11 +67,35 @@ const totalTikectsList = (ticket = {})=> {
 
     })
 
-    return total
+    return {
+        total,
+        items
+    }
+
+}
+
+const totalShoppingCart = (ShoppingCartTikect = [])=> {
+
+    let totalOnShoppingCart = 0;
+    let ItemsOnShoppingCart = 0;
+    
+    
+    
+    ShoppingCartTikect.forEach((item, index)=> {
+
+            totalOnShoppingCart += item.total;
+            ItemsOnShoppingCart += item.itemsCount;
+
+    })
+
+    return {
+        totalOnShoppingCart,
+        ItemsOnShoppingCart,
+    };
 
 }
 
 export {
     totalTikectsList,
-    
+    totalShoppingCart,
 }

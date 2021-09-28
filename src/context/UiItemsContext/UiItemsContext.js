@@ -1,4 +1,5 @@
 import React, {createContext, useReducer} from 'react';
+import { totalShoppingCart } from '../../helper/totalTicketsList';
 import { types } from '../types';
 import UiItemsContextReducer from './UiItemsContextReducer';
 
@@ -6,11 +7,14 @@ import UiItemsContextReducer from './UiItemsContextReducer';
 
 const UiItemsContext = createContext();
 
+const ShoppingCartLocalStorage = JSON.parse(localStorage.getItem('itemsShoppingCart')) || [];
+
 const initialState = {
     dataItemsPizza: [],
     dataItemsDrinks: [],
     dataItemsDressings: [],
-    itemsShoppingCart: [],
+    itemsShoppingCart: ShoppingCartLocalStorage,
+    totalPriceAndItemsOnCart: {},
     selectedItem: null,
 }
 
@@ -45,16 +49,17 @@ const UiItemsContextProvider = ({children})=> {
 
     const pushItemToShoppingCart = (item)=> {
 
+        
         dispatch({
             type: types.pushItemToShoppingCart,
             payload: item,
         })
-
+        
         
     }
 
     const removeItemToShoppingCart = (id) => {
-
+        
         dispatch({
             type: types.removeItemShoppingCart,
             payload: id
@@ -72,6 +77,21 @@ const UiItemsContextProvider = ({children})=> {
         
     }
 
+    const addTotalPriceAndItemsOnCart = (totalTikects = [])=> {
+
+        const {totalOnShoppingCart, ItemsOnShoppingCart} = totalShoppingCart(totalTikects)
+
+        dispatch({
+            type: types.addTotalPriceAndItemsOnCart,
+            payload: {
+                totalOnShoppingCart,
+                ItemsOnShoppingCart,
+            },
+        })
+
+        
+    }
+
     const data = {
         dataItemsMenu: {
             dataItemsPizza: state.dataItemsPizza,
@@ -80,11 +100,13 @@ const UiItemsContextProvider = ({children})=> {
         },
         selectedItem: state.selectedItem,
         itemsShoppingCart: state.itemsShoppingCart,
+        totalPriceAndItemsOnCart: state.totalPriceAndItemsOnCart,
         getDataItems,
         getItemMenuById,
         pushItemToShoppingCart,
         getTotalItemsOnCart,
         removeItemToShoppingCart,
+        addTotalPriceAndItemsOnCart,
     }
 
     return (

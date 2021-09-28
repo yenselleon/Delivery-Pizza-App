@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import {Flex,
         Button, 
         Icon, 
@@ -13,6 +13,7 @@ import {Flex,
         IconButton,
         HStack,
         Stack,
+        Box,
         Input} from '@chakra-ui/react';
 import {SearchIcon} from '@chakra-ui/icons';
 import {FaShoppingCart, FaUserAlt, FaHome, FaSearch} from 'react-icons/fa';
@@ -20,15 +21,26 @@ import UiItemsContext from '../context/UiItemsContext/UiItemsContext';
 import CardItemShoppingCart from './CardItemShoppingCart';
 
 const Navbar = () => {
-    const { itemsShoppingCart } = useContext(UiItemsContext);
+    const { itemsShoppingCart, totalPriceAndItemsOnCart, addTotalPriceAndItemsOnCart } = useContext(UiItemsContext);
 
-    console.log({itemsShoppingCart})
+    
+    useEffect(() => {
+        
+        if(itemsShoppingCart.length > 0){
+            
+            addTotalPriceAndItemsOnCart(itemsShoppingCart)
+        }
+        
+    }, [itemsShoppingCart])
+    
+    console.log({totalPriceAndItemsOnCart})
+
     return (
 
             <Flex
                 pos={["fixed", "sticky"]}
                 align="center"
-                width="100vw"
+                width="100%"
                 boxShadow={['dark-lg', 'lg', 'lg', 'lg']}
                 padding="4"
                 top={['inherit','0','0','0']}
@@ -68,9 +80,8 @@ const Navbar = () => {
         
                         {/* shopping cart */}
                         <Menu
-                            mx="2"
                             closeOnSelect={false}
-
+                            
                         >
                             {({ isOpen}) => (
                                 <>
@@ -87,14 +98,17 @@ const Navbar = () => {
                                         overflow="scroll"
                                         overflowX="hidden"
                                         overflowY="scroll"
+                                        position="relative"
+                                        p="0"
                                     >
-                                        {/* none item section */}
                                         {
+                                            /* none item section */
                                             (itemsShoppingCart.length === 0)
                                                 ?
                                                     <MenuItem
                                                         height="100%"
                                                         width="100%"
+                                                        _focus={{background: "white"}}
                                                     >
                                                         <Flex
                                                             direction="column"
@@ -118,12 +132,45 @@ const Navbar = () => {
                                                         
                                                     </MenuItem>
                                                 :
+                                                    /* Items Cart section */
                                                     itemsShoppingCart.map((item, index) => (
-
-                                                        <CardItemShoppingCart key={item.id} {...item}/>
+                                                        <MenuItem
+                                                            key={item.id}
+                                                            height="auto"
+                                                            width="full"
+                                                            display="block"
+                                                            borderTop="1px solid whitesmoke"
+                                                            borderBottom="1px solid whitesmoke"
+                                                            _hover={{bg:"red.50"}}
+                                                        >
+                                                            <CardItemShoppingCart  {...item}/>
+                                                            
+                                                        </MenuItem>
                                                     ))
                                                 
                                             }
+                                            <Box
+                                                position="sticky"
+                                                bottom="0"
+                                                right="0"
+                                                background="brand.base"
+                                                py="1"
+                                                px="2"
+                                                d="flex"
+                                                justifyContent="space-between"
+                                                alignItems="center"
+                                            >
+                                                <Text color="white" fontWeight="bold">Total: {totalPriceAndItemsOnCart.totalPriceOnCart}$</Text>
+                                                <Button
+                                                    size="sm"
+                                                    variant="outline"
+                                                    borderWidth="0.2rem"
+                                                    color="white"
+                                                    _hover={{background:"white", color:"brand.base"}}
+                                                >
+                                                    CheckOut
+                                                </Button>
+                                            </Box>
                                     </MenuList>
                                 </>
                             )}

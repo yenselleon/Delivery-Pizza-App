@@ -25,16 +25,7 @@ const CardItemMenuPizza = (data) => {
 
 
     console.log('render');
-  /* onst property = {
-    imageUrl: "https://via.placeholder.com/600/771796",
-    imageThumbnail,
-    imageAlt: "Rear view of modern home with pool",
-    ingredient: ingredient,
-    title: title,
-    formattedPrice: "$1,900.00",
-    reviewCount: 34,
-    rating: 4,
-  }; */
+  
 
   return (
     <Box

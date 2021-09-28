@@ -26,6 +26,15 @@ const UiItemsContextReducer = (state , action) => {
                 ],
             }
 
+        case types.addTotalPriceAndItemsOnCart:
+            return {
+                ...state,
+                totalPriceAndItemsOnCart: {
+                    totalPriceOnCart: payload.totalOnShoppingCart,
+                    totalItemsOnCart: payload.ItemsOnShoppingCart,
+                },
+            }
+
         case types.removeItemShoppingCart:
             return {
                 ...state,

@@ -13,7 +13,7 @@ import {Table,
 const TableItemsShoppingCart = ({...item}) => {
 
   return (
-    <Table variant="unstyled" colorScheme="teal"  mt="1">
+    <Table variant="unstyled" colorScheme="teal"  mt="1" fontFamily="monospace">
       <TableCaption><Text as="span" color="gray.400">Comments:</Text> {item.comment}</TableCaption>
       <Thead>
         <Tr bg="gray.300">
@@ -67,7 +67,7 @@ const TableItemsShoppingCart = ({...item}) => {
       <Tfoot>
         <Tr bg="gray.400">
           <Th>Total</Th>
-          <Th isNumeric>10$</Th>
+          <Th isNumeric>{item.total}$</Th>
         </Tr>
       </Tfoot>
     </Table>

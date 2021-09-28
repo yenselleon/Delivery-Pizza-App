@@ -6,20 +6,20 @@ import {
     Redirect,
 } from "react-router-dom";
 import AuthRouter from './AuthRouter';
-import HomeScreen from '../pages/HomeScreen';
+import MainRouter from './MainRouter';
 
 export const AppRouter = () => {
     return (
         <Router>
-            <div>
-            <Switch>
+            <div >
+                <Switch>
 
-                <Route path="/auth" component={AuthRouter} />
-                <Route exact path="/" component={HomeScreen}/>
+                    <Route path="/auth" component={AuthRouter} />
+                    <Route path="/" component={MainRouter}/>
 
-                <Redirect to='/auth/' />
+                    <Redirect to='/auth/' />
 
-            </Switch>
+                </Switch>
 
             </div>
 

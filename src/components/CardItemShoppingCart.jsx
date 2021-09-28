@@ -2,7 +2,6 @@ import Icon from '@chakra-ui/icon'
 import { ChevronDownIcon, DeleteIcon } from '@chakra-ui/icons'
 import { Image } from '@chakra-ui/image'
 import { Flex, Text } from '@chakra-ui/layout'
-import { MenuItem } from '@chakra-ui/menu'
 import { Collapse } from '@chakra-ui/transition'
 import {useDisclosure, Box, HStack, IconButton} from '@chakra-ui/react'
 import React, { useContext } from 'react'
@@ -17,15 +16,9 @@ const CardItemShoppingCart = ({...item}) => {
 
 
     return (
-        <MenuItem
-            height="auto"
-            width="full"
-            display="block"
-            borderTop="1px solid whitesmoke"
-            borderBottom="1px solid whitesmoke"
-        >
+        <>
             <Flex
-                width="inherit"
+                width="100%"
                 height="inherit"
                 align="center"
             >
@@ -46,14 +39,14 @@ const CardItemShoppingCart = ({...item}) => {
                     {/* Price Section */}
                     <Text textAlign="end" fontWeight="bold" color="brand.base">{item.total}$</Text>
                     <Text as="span" fontWeight="semibold">{item.title}</Text>
-                    <Text color="gray.400">var items</Text>
+                    <Text color="gray.400">{item.itemsCount} Items</Text>
                     <HStack
                         display="flex"
                         justifyContent="flex-end"
                     >
-                        <IconButton as={DeleteIcon} mr="3" size="xs" p="1" colorScheme="gray" onClick={()=> removeItemToShoppingCart(item.id)} />
+                        <IconButton as={DeleteIcon} cursor="pointer" mr="3" size="xs" p="1" colorScheme="gray" onClick={()=> removeItemToShoppingCart(item.id)} />
                         
-                        <Icon as={ChevronDownIcon} onClick={onToggle} fontSize="24"/>
+                        <Icon as={ChevronDownIcon} onClick={onToggle} fontSize="24" cursor="pointer"/>
                     </HStack>
                 </Box>
             </Flex>
@@ -62,7 +55,7 @@ const CardItemShoppingCart = ({...item}) => {
                 <TableItemsShoppingCart {...item}/>
                 
             </Collapse>
-        </MenuItem>
+        </>
     )
 }
 

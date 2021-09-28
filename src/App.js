@@ -1,6 +1,5 @@
 import React from 'react';
 
-import './App.css';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { UiItemsContextProvider } from './context/UiItemsContext/UiItemsContext';
 import { ModalItemMenuContextProvider } from './context/ModalItemMenuContext/ModalItemMenuContext';
