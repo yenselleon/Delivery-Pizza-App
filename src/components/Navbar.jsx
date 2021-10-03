@@ -7,21 +7,29 @@ import {Flex,
         MenuList, 
         MenuItem, 
         Text, 
-        InputGroup, 
-        InputLeftElement,
         Spacer,
         IconButton,
         HStack,
-        Stack,
         Box,
-        Input} from '@chakra-ui/react';
-import {SearchIcon} from '@chakra-ui/icons';
-import {FaShoppingCart, FaUserAlt, FaHome, FaSearch} from 'react-icons/fa';
+        Link,} from '@chakra-ui/react';
+import {FaShoppingCart, FaUserAlt} from 'react-icons/fa';
 import UiItemsContext from '../context/UiItemsContext/UiItemsContext';
 import CardItemShoppingCart from './CardItemShoppingCart';
+import InputSearchAutoComplete from './InputSearchAutoComplete';
+import { Link as LinkRouterDom} from 'react-router-dom';
+import MobileBottomNavbar from './MobileBottomNavbar';
 
 const Navbar = () => {
-    const { itemsShoppingCart, totalPriceAndItemsOnCart, addTotalPriceAndItemsOnCart } = useContext(UiItemsContext);
+
+    const { itemsShoppingCart,
+            totalPriceAndItemsOnCart, 
+            addTotalPriceAndItemsOnCart, 
+            openAndCloseHookMenuCart } = useContext(UiItemsContext);
+
+
+    const {isOpenMenuCart,
+            onOpenMenuCart,
+            onCloseMenuCart,} = openAndCloseHookMenuCart;
 
     
     useEffect(() => {
@@ -33,20 +41,20 @@ const Navbar = () => {
         
     }, [itemsShoppingCart])
     
-    console.log({totalPriceAndItemsOnCart})
 
     return (
 
             <Flex
-                pos={["fixed", "sticky"]}
+                pos={["fixed","sticky"]}
                 align="center"
                 width="100%"
                 boxShadow={['dark-lg', 'lg', 'lg', 'lg']}
                 padding="4"
-                top={['inherit','0','0','0']}
-                bottom={['0', 'inherit', 'inherit', 'inherit']}
+                top={["none","0"]}
+                bottom={["0","none"]}
                 bg={['brand.base', "whiteAlpha.900"]}
-                zIndex="9999999"
+                zIndex="999"
+                mt="0"
             >
     
                 <Flex
@@ -61,16 +69,7 @@ const Navbar = () => {
                     <Spacer />
         
                     {/* Search Input */}
-                    <InputGroup
-                        mx="3"
-                        maxWidth="lg"
-                    >
-                        <InputLeftElement
-                        pointerEvents="none"
-                        children={<SearchIcon color="gray.300" />}
-                        />
-                        <Input type="text" placeholder="Search your favorite pizza" />
-                    </InputGroup>
+                    <InputSearchAutoComplete/>
         
                     <Spacer />
                     <HStack
@@ -81,16 +80,53 @@ const Navbar = () => {
                         {/* shopping cart */}
                         <Menu
                             closeOnSelect={false}
-                            
+                            isOpen={isOpenMenuCart}
+                            onClose={onCloseMenuCart}
+                            onOpen={onOpenMenuCart}
                         >
-                            {({ isOpen}) => (
+                            {() => (
                                 <>
                                     <MenuButton 
-                                        isActive={isOpen} 
+                                        isActive={isOpenMenuCart} 
                                         as={Button} 
-                                        leftIcon={<FaShoppingCart />}
+                                        position="relative"
                                     >
-                                        {itemsShoppingCart.length}
+                                        <FaShoppingCart />
+                                        {
+                                            (itemsShoppingCart.length > 0) &&
+                                                <Box
+                                                    position="absolute"
+                                                    top="0"
+                                                    right="0px"
+                                                    borderRadius="50%"
+                                                    bg="brand.base"
+                                                    d="flex"
+                                                    justifyContent="center"
+                                                    alignItems="center"
+                                                    zIndex="overlay"
+                                                    p="4px 6px 4px 7px"
+                                                >
+                                                    <Text
+                                                        as="span"
+                                                        fontSize="9px"
+                                                        color="white"
+                                                        textAlign="center"
+                                                        d="inline"
+                                                        margin="0"
+                                                        p="0"
+                                                        borderRadius="50%"
+                                                    >
+                                                        {
+                                                            (itemsShoppingCart.length <= 9) ?
+                                                                itemsShoppingCart.length
+                                                            :
+                                                                "9+"
+                                                        }
+                                                    </Text>
+                                                </Box>
+                                        
+
+                                        }
                                     </MenuButton>
                                     <MenuList
                                         maxHeight="xs"
@@ -161,28 +197,37 @@ const Navbar = () => {
                                                 alignItems="center"
                                             >
                                                 <Text color="white" fontWeight="bold">Total: {totalPriceAndItemsOnCart.totalPriceOnCart}$</Text>
-                                                <Button
-                                                    size="sm"
-                                                    variant="outline"
-                                                    borderWidth="0.2rem"
-                                                    color="white"
-                                                    _hover={{background:"white", color:"brand.base"}}
-                                                >
-                                                    CheckOut
-                                                </Button>
+                                                <Link  as={LinkRouterDom} to="/checkout" _hover={{textDecoration: 'none'}}>
+                                                    
+                                                    <Button
+                                                        size="sm"
+                                                        variant="outline"
+                                                        borderWidth="0.2rem"
+                                                        color="white"
+                                                        _hover={{background:"white", color:"brand.base"}}
+                                                        onClick={onCloseMenuCart}
+                                                    >
+                                                        CheckOut
+                                                    </Button>
+
+                                                </Link>
                                             </Box>
                                     </MenuList>
                                 </>
                             )}
                         </Menu>
-                            
-                        <Button
-                            size="md"
-                            mx="2"
-                            display={['none', 'none', 'none', 'initial']}
-                        >
-                            Log In
-                        </Button>
+                        
+                        <Link as={LinkRouterDom} to="/auth" _hover={{textDecoration: 'none'}}>
+                        
+                            <Button
+                                size="md"
+                                mx="2"
+                                display={['none', 'none', 'none', 'initial']}
+                            >
+                                Log In
+                            </Button>
+
+                        </Link>
                         <IconButton
                             variant="solid"
                             aria-label="Call Sage"
@@ -198,51 +243,7 @@ const Navbar = () => {
                 </Flex>
                 
                 {/* Navbar Mobile Mode */}
-                <Stack 
-                    direction="row"
-                    justifyContent="space-around"
-                    width="inherit"
-                    display={['flex', "none"]}
-                    
-                >
-                    <IconButton
-                        w="40px" 
-                        h="40px"
-                        color="whiteAlpha.800"
-                        fontSize="24px"
-                        bg={['brand.base']}
-                        shadow="dark-lg"
-                        icon={<FaHome />}
-                    />
-                    <IconButton
-                        w="40px" 
-                        h="40px"
-                        color="whiteAlpha.800"
-                        fontSize="24px"
-                        bg={['brand.base']}
-                        shadow="dark-lg"
-                        icon={<FaSearch />}
-                    />
-                    <IconButton
-                        w="40px" 
-                        h="40px"
-                        color="whiteAlpha.800"
-                        fontSize="24px"
-                        bg={['brand.base']}
-                        shadow="dark-lg"
-                        icon={<FaShoppingCart />}
-                    />
-                    <IconButton
-                        w="40px" 
-                        h="40px"
-                        color="whiteAlpha.800"
-                        fontSize="24px"
-                        bg={['brand.base']}
-                        shadow="dark-lg"
-                        icon={<FaUserAlt />}
-                    />
-                    
-                </Stack>
+                <MobileBottomNavbar />
             </Flex>
            
 

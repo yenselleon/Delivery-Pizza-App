@@ -1,0 +1,10 @@
+.carrousel__container{
+    height: 100%;
+}
+
+.img__carousel{
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    height: 250px;
+}

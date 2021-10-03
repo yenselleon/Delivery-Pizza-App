@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-duplicate-props */
 import { SmallAddIcon, StarIcon } from "@chakra-ui/icons";
-import { Badge, Box, Button, Image } from "@chakra-ui/react";
+import { Badge, Box, Button, Image, Text } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import ModalItemMenuContext from "../context/ModalItemMenuContext/ModalItemMenuContext";
 import UiItemsContext from "../context/UiItemsContext/UiItemsContext";
@@ -29,11 +29,11 @@ const CardItemMenuPizza = (data) => {
 
   return (
     <Box
-      width={["280px", "sm"]}
+      width={["350px", "450px", "xs", "430px"]}
       borderWidth="1px"
       borderRadius="lg"
       overflow="hidden"
-      p="1"
+      p="0"
       display="flex"
       m="0"
       bg="white"
@@ -61,6 +61,7 @@ const CardItemMenuPizza = (data) => {
             borderRadius="lg"
             ml="auto"
             colorScheme="red"
+            zIndex="initial"
             onClick={()=> {
               getItemMenuById(id);
               onOpenModalCardMenu();
@@ -72,15 +73,12 @@ const CardItemMenuPizza = (data) => {
 
         <Box
           mt="1"
-          fontWeight="semibold"
-          as="h4"
-          lineHeight="tight"
           isTruncated
         >
-          {title}
+          <Text as="h4" fontSize="sm" fontWeight="semibold">{title}</Text>
         </Box>
-        <Box as="span" color="gray.600" fontSize="sm" isTruncated>
-          {ingredient}
+        <Box  color="gray.600"  isTruncated>
+          <Text as="span" fontSize="sm" lineHeight="tight">{ingredient}</Text>
         </Box>
 
         <Box>${price[0].price}</Box>

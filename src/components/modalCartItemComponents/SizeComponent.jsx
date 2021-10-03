@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Box, Text, Stack, Flex} from '@chakra-ui/layout'
-import { FormControl, FormLabel } from '@chakra-ui/react'
+import { FormControl, FormLabel, FormErrorMessage } from '@chakra-ui/react'
 import { useFormikContext } from 'formik'
 import UiItemsContext from "../../context/UiItemsContext/UiItemsContext";
 
@@ -10,6 +10,7 @@ import IncrementDecrementBtn from "../btns/IncrementDecrementBtn";
 import IncrementBtn from "../btns/IncrementBtn";
 
 const SizeComponent = (props) => {
+    console.log(props.form.errors)
 
     const {push} = props;
 
@@ -24,7 +25,10 @@ const SizeComponent = (props) => {
 
 
     return (
-        <FormControl isRequired>
+        <FormControl 
+            isRequired 
+            isInvalid={props.form.errors?.tikectList?.pizzas && props.form.touched?.tikectList?.pizzas} //determinar si hay un error y lo muestra
+        >
             <FormLabel bg="gray.100" width="100%" p="1">
             Size
             </FormLabel>
@@ -64,7 +68,11 @@ const SizeComponent = (props) => {
                 </Box>
 
             )}
+            
+            <FormErrorMessage>{props.form.errors?.tikectList?.pizzas}</FormErrorMessage>
+        
             </Stack>
+
         </FormControl>
 
     )

@@ -1,20 +1,16 @@
-import React, { useState } from "react";
-import { Box, Flex, Image, Text, keyframes, ButtonGroup, Button } from "@chakra-ui/react";
+import React from "react";
+import { Box, Flex, Image, Text, keyframes, ButtonGroup, Button, Link } from "@chakra-ui/react";
 import pizzaPng from "../img/pizza.png";
-
+import { Link as LinkRouterDom } from "react-router-dom";
 
 
 const LaunchScreen = () => {
-  const [state, setState] = useState(0)
 
   const spin = keyframes`
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 `;
-  console.log(state);
-  const increment = ()=> {
-    setState(state => state + 1);
-  }
+  
   return (
     <Flex direction={["column", "column", "row"]}>
       <Box
@@ -75,11 +71,20 @@ const LaunchScreen = () => {
             Fast delivery to your home, office o wherever you are
           </Text>
 
-          <ButtonGroup mt="10" display="flex" alignItems="center" flexDirection="column" spacing="0">
-            <Button color="white" bg="brand.base" width="50%" >Login</Button>
-            <Button mt="3" width="50%" onClick={increment}>Create Account</Button>
+          <ButtonGroup mt="10" display="flex" alignItems="center" flexDirection="column" spacing="0" >
+            <Link as={LinkRouterDom} to="/auth/login" _hover={{textDecoration: 'none'}} width="100%" d="flex" mb="2">
+
+              <Button color="white" bg="brand.base"  m="auto" width="50%">Login</Button>
+            
+            </Link>
+
+            <Link as={LinkRouterDom} to="/auth/register" _hover={{textDecoration: 'none'}} width="100%"  d="flex">
+
+              <Button color="black"   m="auto" width="50%">Create Account</Button>
+            
+            </Link>
+
           </ButtonGroup>
-          {state}
         </Box>
 
       </Box>

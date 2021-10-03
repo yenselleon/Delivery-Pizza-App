@@ -1,12 +1,12 @@
-import { Box, Container, Image, Wrap, WrapItem } from "@chakra-ui/react";
+import { Box, Container, Wrap, WrapItem } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import CardItemMenuPizza from "../components/CardItemMenuPizza";
-import pizzaMargarita from "../img/pizza_margarita.jpg";
 import Pagination from "rc-pagination";
 import "rc-pagination/assets/index.css";
 import ModalCardItemMenu from "../components/ModalCardItemMenu";
 import UiItemsContext from "../context/UiItemsContext/UiItemsContext";
 import { pizzaMenuList } from "../db/menuPizzaList";
+import CarrouselSlider from "../components/CarrouselSlider";
 
 const HomeScreen = () => {
   const { dataItemsMenu, getDataItems } = useContext(UiItemsContext);
@@ -40,41 +40,38 @@ const HomeScreen = () => {
   console.log("render home");
   return (
     <Container
-      bg="turquoise"
       maxW={["100%", "100%", "container.lg", "container.lg"]}
-      height="100vh"
+      height="auto"
       centerContent
-      border="1px solid red"
+      p="0"
     >
       {/* Modal card */}
       <ModalCardItemMenu />
 
       <Box
-        width={["100vw", "100vw", "inherit", "inherit"]}
+        width={["100%", "100%", "inherit", "inherit"]}
         height={["250px", "250px", "300px", "300px"]}
+        overflow="hidden"
       >
-        <Image
-          objectFit="cover"
-          boxSize="100%"
-          src={pizzaMargarita}
-          alt="Pizza"
-          zIndex="1"
-        />
+        <CarrouselSlider/>
       </Box>
 
       {/* listado de productos */}
       <Box
-        mt="4"
-        width={["100vw", "100vw", "inherit", "inherit"]}
+        width="100%"
         height="inherit"
         bg="white"
+        d="flex"
+        flexDirection="column"
+        alignItems="center"
+        padding="20px 0px 10px 0px"
       >
-        <Wrap justify="center" m="0" bg="white" spacing="4">
+        <Wrap justify="center" m="0" bg="white" spacing={["2", "2", "2", "4"]} width={["min-content", "min-content", "90%"]}>
           {loading ? (
             <h1>Loading</h1>
           ) : (
             displayItems.map((dataPizza) => (
-              <WrapItem key={dataPizza.id} m="0" className="prueba">
+              <WrapItem key={dataPizza.id} m="0" mb="2" className="prueba">
                 <CardItemMenuPizza {...dataPizza} />
               </WrapItem>
             ))
@@ -82,11 +79,13 @@ const HomeScreen = () => {
         </Wrap>
 
         <Pagination
+          
           defaultCurrent={0}
           onChange={UpdatePage}
           current={pageNumber}
           total={dataPizza?.length}
           pageSize={itemsPerPage}
+          style={{margin: "25px 0px"}}
         />
       </Box>
     </Container>

@@ -5,8 +5,14 @@ import images from "react-payment-inputs/images";
 import { formCreditCard } from "../../styles/components/forms/formCreditCard";
 import { Button, Input, Box } from "@chakra-ui/react";
 
+  const initialValues = {
+    cardNumber: "",
+    expiryDate: "",
+    cvc: "",
+    holderName: "",
+  }
 
-const FormCreditCardCheckuot = () => {
+const FormCreditCardCheckuot = ({nextStep}) => {
     
     const {
         meta,
@@ -20,13 +26,14 @@ const FormCreditCardCheckuot = () => {
 
   return (
     <Formik
-      initialValues={{
-        cardNumber: "",
-        expiryDate: "",
-        cvc: "",
-        holderName: "",
+      initialValues={initialValues}
+      onSubmit={(data)=> {
+
+        console.log(data)
+
+        nextStep();
+
       }}
-      onSubmit={(data) => console.log(data)}
       validate={() => {
         let errors = {};
         if (meta.erroredInputs.cardNumber) {
@@ -41,8 +48,8 @@ const FormCreditCardCheckuot = () => {
         return errors;
       }}
     >
-      {({ handleSubmit }) => (
-        <Form onSubmit={handleSubmit}>
+      {({setValues}) => (
+        <Form >
           <Field name="holderName">
             {({ field }) => (
               <Input
@@ -102,6 +109,21 @@ const FormCreditCardCheckuot = () => {
                 )}
               </Field>
             </PaymentInputsWrapper>
+
+            <Button
+              mt="1"
+              width="30%"
+              variant="outline"
+              color="white"
+              border="0.2rem solid white"
+              onClick={()=> {
+                setValues(initialValues);
+                nextStep();
+              }}
+            >
+              Submit
+            </Button>
+
             <Button
               mt="1"
               type="submit"

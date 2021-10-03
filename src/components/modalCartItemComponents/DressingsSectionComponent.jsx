@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Box, Text, Stack, Flex } from "@chakra-ui/layout";
-import { FormControl, FormLabel, CheckboxGroup, Checkbox } from "@chakra-ui/react";
+import { FormControl, FormLabel, CheckboxGroup, Checkbox, FormErrorMessage } from "@chakra-ui/react";
 import { useField } from "formik";
 import UiItemsContext from "../../context/UiItemsContext/UiItemsContext";
 
@@ -21,10 +21,12 @@ const DressingsSectionComponent = () => {
   const { dataItemsDressings } = dataItemsMenu;
 
     
-    const [field] = useField({ name: "tikectList.dressings", type: "checkbox" });
+    const [field, meta] = useField({ name: "tikectList.dressings", type: "checkbox" });
 
   return (
-    <FormControl>
+    <FormControl
+      isInvalid={meta.touched && meta.error  }
+    >
       <FormLabel bg="gray.100" width="100%" p="1">
         Dressings
       </FormLabel>
@@ -52,6 +54,9 @@ const DressingsSectionComponent = () => {
           
         </Stack>
       </CheckboxGroup>
+
+      <FormErrorMessage>{meta.error }</FormErrorMessage>
+
     </FormControl>
   );
 };

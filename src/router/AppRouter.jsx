@@ -12,6 +12,7 @@ export const AppRouter = () => {
     return (
         <Router>
             <div >
+
                 <Switch>
 
                     <Route path="/auth" component={AuthRouter} />

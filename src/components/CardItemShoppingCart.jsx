@@ -28,7 +28,8 @@ const CardItemShoppingCart = ({...item}) => {
                     width="100px"
                     p="1"
                     borderRadius="lg"
-
+                    objectFit="cover"
+                    objectPosition="center"
                 />
                 <Box
                     height="inherit"
