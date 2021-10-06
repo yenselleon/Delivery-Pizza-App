@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import AuthRouter from './AuthRouter';
 import MainRouter from './MainRouter';
+import PublicRoute from './PublicRoute';
 
 export const AppRouter = () => {
     return (
@@ -15,10 +16,10 @@ export const AppRouter = () => {
 
                 <Switch>
 
-                    <Route path="/auth" component={AuthRouter} />
+                    <PublicRoute path="/auth" component={AuthRouter} />
                     <Route path="/" component={MainRouter}/>
 
-                    <Redirect to='/auth/' />
+                    <Redirect to='/' />
 
                 </Switch>
 

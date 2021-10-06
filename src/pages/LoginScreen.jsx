@@ -5,8 +5,29 @@ import { Box,
          FormControl,
          Input,
          FormHelperText,
-         Button, } from '@chakra-ui/react'
+         Button,
+         Image,
+         Link,
+         FormErrorMessage } from '@chakra-ui/react'
 import { ChevronLeftIcon } from '@chakra-ui/icons'
+import {Formik, Form, Field} from 'formik'
+import { Link as LinkRouterDom} from 'react-router-dom';
+import * as Yup from 'yup';
+
+
+import coolSvgShappe from '../img/cool-background.svg'
+import blob from '../img/blob.svg'
+import shape3 from '../img/shape3.svg'
+
+const initialValues = {
+    email: '',
+    password: '',
+}
+
+const validationLoginSchema = {
+    email: Yup.string().required('The email is required'),
+    password: Yup.string().required('The password is required'),
+}
 
 const LoginScreen = () => {
     return (
@@ -23,23 +44,68 @@ const LoginScreen = () => {
             >
                 <Text>Hola mundo</Text>
             </Box>
-
+            
             <Box 
-                p="4" 
+                px="4" 
                 width={[
                     "100%", // base
                     "100%", // 480px upwards
                     "50%", // 768px upwards
                     "50%", // 992px upwards
                 ]}
+                position="relative"
+                overflow="hidden"
             >
-                <ChevronLeftIcon 
-                    color="black" 
-                    bg="white" 
-                    borderRadius="50%" 
-                    w={7} 
-                    h={7}
+                <Image 
+                    src={coolSvgShappe} 
+                    position="absolute"
+                    width={["200px", "250px", "200px"]}
+                    height={["200px", "250px", "200px"]}
+                    top="0px"
+                    right="0"
+                    objectFit="cover"
+                    
                 />
+
+                <Image 
+                    src={blob} 
+                    position="absolute"
+                    width="350px"
+                    height="350px"
+                    bottom="-75px"
+                    left="-110px"
+                    objectFit="cover"
+                />
+
+                <Image 
+                    src={shape3} 
+                    position="absolute"
+                    width="350px"
+                    height="350px"
+                    bottom="0"
+                    left="0"
+                    right="0"
+                    top="0"
+                    margin="auto"
+                    objectFit="cover"
+                />
+
+                <Link
+                    as={LinkRouterDom} 
+                    to="/auth" 
+                    _hover={{ textDecoration: "none" }}
+                >
+
+                    <ChevronLeftIcon 
+                        color="black" 
+                        bg="white" 
+                        borderRadius="50%" 
+                        w={7} 
+                        h={7}
+                        mt="5"
+                    />
+
+                </Link>
                 <Text 
                     fontSize="xl" 
                     fontWeight="bold" 
@@ -49,22 +115,77 @@ const LoginScreen = () => {
                     Login to your <br/>account
                 </Text>
 
-                <FormControl id="email">
-                    <Input bg="white" placeholder="Email address" type="email" mb="3" mt="4"/>
-                    <Input bg="white" placeholder="Password" type="password" />
-                    <FormHelperText color="black" textAlign="right">Forgot your password?</FormHelperText>
-
-                    <Button 
-                        
-                        bg="brand.base" 
-                        color="white" 
-                        width="100%" 
-                        textAlign="center" 
-                        mt="4"
+                <Box
+                    bg="white"
+                    borderRadius="md"
+                    px="5"
+                    py="10"
+                    borderWidth="thin"
+                    boxShadow="md"
+                    width={["95%","85%", "90%"]}
+                    m="auto"
+                    mt="5"
+                    position="relative"
+                >
+                    <Formik
+                        initialValues={initialValues}
+                        validationSchema={validationLoginSchema}
+                        onSubmit={(values)=> {
+                            console.log(values)
+                        }}
                     >
-                        Login
-                    </Button>
-                </FormControl>
+                        <Form>
+                            <Field name="email">
+                                {
+                                    ({field,form})=>(
+
+                                        <FormControl
+                                            isRequired
+                                            isInvalid={form.errors?.email && form.touched?.email}
+                                        >
+                                            <Input bg="white" placeholder="Email address" type="email" mb="3" mt="4" {...field}/>
+                                            <FormErrorMessage>{form.errors?.fullName}</FormErrorMessage>
+
+                                        </FormControl>
+                                    )
+                                }
+                            </Field>
+
+                            <Field name="password">
+                                {
+                                    ({field, form})=>(
+
+                                        <FormControl
+                                            isRequired
+                                            isInvalid={form.errors?.password && form.touched?.password}
+                                        >
+                                            <Input bg="white" placeholder="Password" type="password" {...field}/>
+                                            <FormErrorMessage>{form.errors?.fullName}</FormErrorMessage>
+
+
+                                            <FormHelperText color="black" textAlign="right">Forgot your password?</FormHelperText>
+                                        </FormControl>
+                                        
+                                    )
+                                }
+                            </Field>
+
+                            <Button 
+                                type="submit"
+                                bg="brand.base" 
+                                color="white" 
+                                width="100%" 
+                                textAlign="center" 
+                                mt="4"
+                            >
+                                Login
+                            </Button>
+
+                        </Form>
+                    </Formik>
+
+                </Box>
+
             </Box>
         </Flex>
 

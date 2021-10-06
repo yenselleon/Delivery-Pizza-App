@@ -1,4 +1,3 @@
-import { useDisclosure } from '@chakra-ui/hooks';
 import { Container } from '@chakra-ui/layout';
 import React from 'react'
 import {
@@ -10,6 +9,7 @@ import Navbar from '../components/Navbar';
 import OverlaySearchInputAutoComplete from '../components/OverlaySearchInputAutoComplete';
 import CheckOutScreen from '../pages/CheckOutScreen';
 import HomeScreen from '../pages/HomeScreen'
+import PrivateRoute from './PrivateRoute';
 
 const MainRouter = () => {
 
@@ -34,7 +34,7 @@ const MainRouter = () => {
             <Switch>
 
                 <Route exact path="/" component={HomeScreen} />
-                <Route path="/checkout/" component={CheckOutScreen} />
+                <PrivateRoute path="/checkout/" component={CheckOutScreen} />
 
                 <Redirect to='/auth/' />
 

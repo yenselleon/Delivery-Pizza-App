@@ -68,6 +68,7 @@ const InputSearchAutoComplete = () => {
                 >
 
                     {
+                        // eslint-disable-next-line array-callback-return
                         dataItemsPizza?.filter((item, index)=> {
 
                             if(item.title.toLowerCase().includes(search.toLowerCase())){

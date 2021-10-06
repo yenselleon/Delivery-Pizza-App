@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { PaymentInputsWrapper, usePaymentInputs } from "react-payment-inputs";
 import { Formik, Field, Form } from "formik";
 import images from "react-payment-inputs/images";
@@ -13,6 +13,8 @@ import { Button, Input, Box } from "@chakra-ui/react";
   }
 
 const FormCreditCardCheckuot = ({nextStep}) => {
+
+  const [randomValues, setRandomValues] = useState(false);
     
     const {
         meta,
@@ -30,11 +32,14 @@ const FormCreditCardCheckuot = ({nextStep}) => {
       onSubmit={(data)=> {
 
         console.log(data)
-
         nextStep();
+
 
       }}
       validate={() => {
+        if(randomValues){
+          return;
+        }
         let errors = {};
         if (meta.erroredInputs.cardNumber) {
           errors.cardNumber = meta.erroredInputs.cardNumber;
@@ -48,7 +53,7 @@ const FormCreditCardCheckuot = ({nextStep}) => {
         return errors;
       }}
     >
-      {({setValues}) => (
+      {({setValues, ...props}) => (
         <Form >
           <Field name="holderName">
             {({ field }) => (
@@ -83,6 +88,7 @@ const FormCreditCardCheckuot = ({nextStep}) => {
                       onBlur: field.onBlur,
                       onChange: field.onChange,
                     })}
+                    value={field.value}
                   />
                 )}
               </Field>
@@ -94,34 +100,52 @@ const FormCreditCardCheckuot = ({nextStep}) => {
                       onBlur: field.onBlur,
                       onChange: field.onChange,
                     })}
+                    value={field.value}
+                    
                   />
                 )}
               </Field>
               <Field name="cvc">
                 {({ field }) => (
-                  <Input
-                    variant="unstyled"
-                    {...getCVCProps({
-                      onBlur: field.onBlur,
-                      onChange: field.onChange,
-                    })}
-                  />
+                      <Input
+                        variant="unstyled"
+                        {...getCVCProps({
+                          onBlur: field.onBlur,
+                          onChange: field.onChange,
+                        })}
+                        value={field.value}
+
+                      />
+
                 )}
               </Field>
             </PaymentInputsWrapper>
 
             <Button
               mt="1"
-              width="30%"
+              mb="3"
+              width="fit-content"
               variant="outline"
               color="white"
               border="0.2rem solid white"
+              size="xs"
+              _hover={{
+                color: "brand.base",
+                background: "white",
+                border: "0.2rem solid white",
+              }}
+              
               onClick={()=> {
-                setValues(initialValues);
-                nextStep();
+                setValues({
+                  cardNumber: "4929429464439414",
+                  expiryDate: "10/25",
+                  cvc: "675",
+                  holderName: "Ramon Perez",
+                });
+                setRandomValues(true);
               }}
             >
-              Submit
+              Generate ramdon Number
             </Button>
 
             <Button
@@ -136,6 +160,7 @@ const FormCreditCardCheckuot = ({nextStep}) => {
                 background: "white",
                 border: "0.2rem solid white",
               }}
+              onClick={()=> console.log(props)}
             >
               Submit
             </Button>

@@ -1,4 +1,3 @@
-import { CloseButton } from '@chakra-ui/close-button';
 import { Box } from '@chakra-ui/layout';
 import React, { useContext } from 'react'
 import UiItemsContext from '../context/UiItemsContext/UiItemsContext';
