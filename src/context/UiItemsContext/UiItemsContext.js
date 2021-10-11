@@ -1,5 +1,5 @@
 import { useDisclosure } from '@chakra-ui/hooks';
-import React, {createContext, useReducer} from 'react';
+import React, {createContext, useReducer, useEffect} from 'react';
 import { totalShoppingCart } from '../../helper/totalTicketsList';
 import { types } from '../types';
 import UiItemsContextReducer from './UiItemsContextReducer';
@@ -8,18 +8,25 @@ import UiItemsContextReducer from './UiItemsContextReducer';
 
 const UiItemsContext = createContext();
 
-const ShoppingCartLocalStorage = JSON.parse(localStorage.getItem('itemsShoppingCart')) || [];
 
 const initialState = {
     dataItemsPizza: [],
     dataItemsDrinks: [],
     dataItemsDressings: [],
-    itemsShoppingCart: ShoppingCartLocalStorage,
+    itemsShoppingCart: JSON.parse(localStorage.getItem('itemsShoppingCart')) || [],
     totalPriceAndItemsOnCart: {},
     selectedItem: null,
 }
 
 const UiItemsContextProvider = ({children})=> {
+
+    const [state, dispatch] = useReducer(UiItemsContextReducer, initialState)
+
+    useEffect(() => {
+        
+        localStorage.setItem('itemsShoppingCart',JSON.stringify(state.itemsShoppingCart))
+
+    }, [state.itemsShoppingCart])
 
     const { isOpen: isOpenMenuCart, onOpen: onOpenMenuCart, onClose: onCloseMenuCart} = useDisclosure();
 
@@ -38,7 +45,6 @@ const UiItemsContextProvider = ({children})=> {
         onCloseSearchInput
     }
 
-    const [state, dispatch] = useReducer(UiItemsContextReducer, initialState)
 
     const getDataItems = (data, pushArrayState)=>{
 

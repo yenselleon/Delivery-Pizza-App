@@ -16,15 +16,20 @@ import {FaShoppingCart, FaUserAlt} from 'react-icons/fa';
 import UiItemsContext from '../context/UiItemsContext/UiItemsContext';
 import CardItemShoppingCart from './CardItemShoppingCart';
 import InputSearchAutoComplete from './InputSearchAutoComplete';
-import { Link as LinkRouterDom} from 'react-router-dom';
+import { Link as LinkRouterDom, useHistory} from 'react-router-dom';
 import MobileBottomNavbar from './MobileBottomNavbar';
+import UserContext from '../context/UserContext/UserContext';
 
 const Navbar = () => {
+
+    const history = useHistory();
 
     const { itemsShoppingCart,
             totalPriceAndItemsOnCart, 
             addTotalPriceAndItemsOnCart, 
             openAndCloseHookMenuCart } = useContext(UiItemsContext);
+
+    const {singOutUser, logged} = useContext(UserContext);
 
 
     const {isOpenMenuCart,
@@ -192,7 +197,7 @@ const Navbar = () => {
                                                 background="brand.base"
                                                 py="1"
                                                 px="2"
-                                                d="flex"
+                                                d={(itemsShoppingCart.length === 0) ? 'none' : "flex"}
                                                 justifyContent="space-between"
                                                 alignItems="center"
                                             >
@@ -217,27 +222,50 @@ const Navbar = () => {
                             )}
                         </Menu>
                         
-                        <Link as={LinkRouterDom} to="/auth" _hover={{textDecoration: 'none'}}>
                         
-                            <Button
-                                size="md"
-                                mx="2"
-                                display={['none', 'none', 'none', 'initial']}
-                            >
-                                Log In
-                            </Button>
+                        {/* Menu profile */}
+                        <Menu
+                            size="xs"
+                        >
+                            <MenuButton
+                                as={IconButton} 
+                                variant="solid"
+                                transition="all 0.2s"
+                                _hover={{ bg: "gray.400" }}
+                                _expanded={{ bg: "brand.base", color: "white" }}
+                                _focus={{outlineColor: "none"}}
+                                icon={<FaUserAlt />}
+                            />
+                                
+                            {
+                                (logged)
+                                ?   
+                                    <MenuList> 
+                                        <MenuItem>My Account</MenuItem>
+                                        <MenuItem
+                                            onClick={()=> {
+                                                singOutUser();
+                                                history.replace('/')
+                                            }}
+                                        >
+                                            Log out
+                                        </MenuItem>
+                                    </MenuList>
+                                :
+                                    <MenuList>
+                                        <Link as={LinkRouterDom} to="/auth/login" _hover={{textDecoration: 'none'}}>
+                                            <MenuItem>Sign in</MenuItem>
+                                        </Link>
 
-                        </Link>
-                        <IconButton
-                            variant="solid"
-                            aria-label="Call Sage"
-                            fontSize="20px"
-                            display={['flex', 'flex', 'flex', 'none']}
-                            justifyContent="center"
-                            alignContent="center"
-                            icon={<FaUserAlt />}
+                                        <Link as={LinkRouterDom} to="/auth/register" _hover={{textDecoration: 'none'}}>
+                                            <MenuItem>Sign up</MenuItem>
+                                        </Link>
+                                    </MenuList>
+                            }
+                                
+                                
+                        </Menu>
 
-                        />
 
                     </HStack>
                 </Flex>

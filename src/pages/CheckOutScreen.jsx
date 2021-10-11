@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { Container  } from "@chakra-ui/react";
 import UiItemsContext from "../context/UiItemsContext/UiItemsContext";
-import CheckoutListAndPayCard from '../components/CheckoutListAndPayCard'
+import CheckoutListAndPayCard from '../components/CheckoutListAndPayCard';
+import CardConfirmDataCheckOut from '../components/CardConfirmDataCheckOut';
 
 import { Step, Steps, useSteps } from 'chakra-ui-steps';
 
@@ -19,7 +20,7 @@ const CheckOutScreen = () => {
   
   const steps = [
     { label: 'CheckOut', content: <CheckoutListAndPayCard nextStep={nextStep}/>,},
-    { label: 'Confirm', content: (<div>hola</div>),},
+    { label: 'Confirm', content: <CardConfirmDataCheckOut nextStep={nextStep}/>,},
     { label: 'End', content: (<div>hola</div>),},
   ];
 

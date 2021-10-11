@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Box,
          Flex,
          Text,
@@ -21,6 +21,7 @@ import { ChevronLeftIcon } from '@chakra-ui/icons'
 import {Formik, Form, Field} from 'formik';
 
 import { Link as LinkRouterDom} from 'react-router-dom';
+import UserContext from '../context/UserContext/UserContext'
 
 const initialValues = {
     fullName: '',
@@ -44,6 +45,10 @@ const validationRegistrationSchema = Yup.object().shape({
 
 
 const RegisterScreen = () => {
+
+
+    const {createNewUser} = useContext(UserContext);
+
     return (
         <Flex bg="gray.100" height="100vh">
             <Box 
@@ -143,9 +148,10 @@ const RegisterScreen = () => {
                         onSubmit={ async(values)=> {
                             
                             validationRegistrationSchema.isValid(initialValues).then((...p)=> console.log({p})).catch(err => console.log({err}))
-                            console.log(values);
 
+                            await createNewUser(values);
 
+                            
                         }}
                     >
                         <Form>

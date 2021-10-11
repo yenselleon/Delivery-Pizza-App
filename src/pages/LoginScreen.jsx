@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Box,
          Flex,
          Text,
@@ -18,18 +18,24 @@ import * as Yup from 'yup';
 import coolSvgShappe from '../img/cool-background.svg'
 import blob from '../img/blob.svg'
 import shape3 from '../img/shape3.svg'
+import UserContext from '../context/UserContext/UserContext';
 
 const initialValues = {
     email: '',
     password: '',
 }
 
-const validationLoginSchema = {
-    email: Yup.string().required('The email is required'),
+const validationLoginSchema = Yup.object().shape({
+    email: Yup.string().email('the email is invalid').required('The email is required'),
     password: Yup.string().required('The password is required'),
-}
+})
+
 
 const LoginScreen = () => {
+
+    const {loginUser} = useContext(UserContext)
+
+
     return (
         <Flex bg="gray.100" height="100vh">
             <Box 
@@ -130,8 +136,17 @@ const LoginScreen = () => {
                     <Formik
                         initialValues={initialValues}
                         validationSchema={validationLoginSchema}
-                        onSubmit={(values)=> {
-                            console.log(values)
+                        onSubmit={async(values)=> {
+
+                            try {
+                                await validationLoginSchema.isValid(initialValues)
+    
+                                await loginUser(values);
+                                
+                            } catch (error) {
+                                console.log(error)
+                            }
+
                         }}
                     >
                         <Form>

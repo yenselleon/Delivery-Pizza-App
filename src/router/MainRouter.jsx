@@ -1,5 +1,5 @@
 import { Container } from '@chakra-ui/layout';
-import React from 'react'
+import React, {useContext} from 'react'
 import {
     Switch,
     Route,
@@ -11,9 +11,11 @@ import CheckOutScreen from '../pages/CheckOutScreen';
 import HomeScreen from '../pages/HomeScreen'
 import PrivateRoute from './PrivateRoute';
 
+import UserContext from '../context/UserContext/UserContext'
+
 const MainRouter = () => {
 
-    
+    const {logged} = useContext(UserContext)
 
 
     return (
@@ -34,9 +36,9 @@ const MainRouter = () => {
             <Switch>
 
                 <Route exact path="/" component={HomeScreen} />
-                <PrivateRoute path="/checkout/" component={CheckOutScreen} />
+                <PrivateRoute path="/checkout/" component={CheckOutScreen} isAuthenticated={logged}/>
 
-                <Redirect to='/auth/' />
+                <Redirect to='/' />
 
             </Switch>
         

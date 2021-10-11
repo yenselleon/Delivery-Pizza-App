@@ -3,13 +3,15 @@ import { PaymentInputsWrapper, usePaymentInputs } from "react-payment-inputs";
 import { Formik, Field, Form } from "formik";
 import images from "react-payment-inputs/images";
 import { formCreditCard } from "../../styles/components/forms/formCreditCard";
-import { Button, Input, Box } from "@chakra-ui/react";
+import { Button, Input, Box, Select } from "@chakra-ui/react";
+import _ from "lodash";
 
   const initialValues = {
     cardNumber: "",
     expiryDate: "",
     cvc: "",
     holderName: "",
+    country: "",
   }
 
 const FormCreditCardCheckuot = ({nextStep}) => {
@@ -121,6 +123,29 @@ const FormCreditCardCheckuot = ({nextStep}) => {
               </Field>
             </PaymentInputsWrapper>
 
+            <Field name="country">
+              {
+                (({field})=> (
+                  <Select 
+                    {...field} 
+                    color="white"
+                    bg="brand.base"
+                    placeholder="Select your country" 
+                  >
+                    <option style={{color: 'black'}}  value="United State">United State</option>
+                    <option style={{color: 'black'}}  value="Canada">Canada</option>
+                    <option style={{color: 'black'}}  value="Colombia">Colombia</option>
+                    <option style={{color: 'black'}}  value="Peru">Peru</option>
+                    <option style={{color: 'black'}}  value="Mexico">Mexico</option>
+                    <option style={{color: 'black'}}  value="Spain">Spain</option>
+                    <option style={{color: 'black'}}  value="Venezuela">Venezuela</option>
+                    <option style={{color: 'black'}}  value="Italy">Italy</option>
+                    <option style={{color: 'black'}}  value="Chile">Chile</option>
+                  </Select>
+                ))
+              }
+            </Field>
+
             <Button
               mt="1"
               mb="3"
@@ -141,12 +166,14 @@ const FormCreditCardCheckuot = ({nextStep}) => {
                   expiryDate: "10/25",
                   cvc: "675",
                   holderName: "Ramon Perez",
+                  country: "Venezuela"
                 });
                 setRandomValues(true);
               }}
             >
               Generate ramdon Number
             </Button>
+            
 
             <Button
               mt="1"

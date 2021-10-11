@@ -4,6 +4,7 @@ import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { UiItemsContextProvider } from './context/UiItemsContext/UiItemsContext';
 import { ModalItemMenuContextProvider } from './context/ModalItemMenuContext/ModalItemMenuContext';
 import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
+import { UserContextProvider } from './context/UserContext/UserContext';
 
 const theme = extendTheme({
   components: {
@@ -25,13 +26,15 @@ function App({ Component, pageProps  }) {
 
   return (
     <ChakraProvider theme={theme}>
-      <UiItemsContextProvider>
-        <ModalItemMenuContextProvider>
+      <UserContextProvider>
+        <UiItemsContextProvider>
+          <ModalItemMenuContextProvider>
 
-          <Component {...pageProps}/>
+            <Component {...pageProps}/>
 
-        </ModalItemMenuContextProvider>
-      </UiItemsContextProvider>
+          </ModalItemMenuContextProvider>
+        </UiItemsContextProvider>
+      </UserContextProvider>
     </ChakraProvider>
   );
 }

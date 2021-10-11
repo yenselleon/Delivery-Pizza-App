@@ -18,7 +18,7 @@ const AuthRouter = () => {
             <Route exact path="/auth/login" component={LoginScreen} />
             <Route path="/auth/register" component={RegisterScreen} />
 
-            <Redirect to="/auth/"/>
+            <Redirect to="/auth"/>
 
         </Switch>
     )
