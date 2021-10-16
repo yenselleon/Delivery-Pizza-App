@@ -10,7 +10,6 @@ import IncrementDecrementBtn from "../btns/IncrementDecrementBtn";
 import IncrementBtn from "../btns/IncrementBtn";
 
 const SizeComponent = (props) => {
-    console.log(props.form.errors)
 
     const {push} = props;
 

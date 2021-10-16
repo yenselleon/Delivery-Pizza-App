@@ -27,7 +27,8 @@ const Navbar = () => {
     const { itemsShoppingCart,
             totalPriceAndItemsOnCart, 
             addTotalPriceAndItemsOnCart, 
-            openAndCloseHookMenuCart } = useContext(UiItemsContext);
+            openAndCloseHookMenuCart,
+            clearItemsShoppingCart } = useContext(UiItemsContext);
 
     const {singOutUser, logged} = useContext(UserContext);
 
@@ -243,8 +244,9 @@ const Navbar = () => {
                                     <MenuList> 
                                         <MenuItem>My Account</MenuItem>
                                         <MenuItem
-                                            onClick={()=> {
-                                                singOutUser();
+                                            onClick={async()=> {
+                                                await singOutUser();
+                                                clearItemsShoppingCart();
                                                 history.replace('/')
                                             }}
                                         >

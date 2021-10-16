@@ -127,13 +127,18 @@ const UserContextProvider = ({children})=> {
         })
     }
 
+    const addItemsOnShoppingCart = (items = {})=> {
+
+    }
+
 
     const data = {
         user: state.user,
         logged: state.logged,
         createNewUser,
         singOutUser,
-        loginUser
+        loginUser,
+        addItemsOnShoppingCart
     }
 
     return (

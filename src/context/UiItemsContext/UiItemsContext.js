@@ -115,6 +115,9 @@ const UiItemsContextProvider = ({children})=> {
         
     }
 
+    const clearItemsShoppingCart = () => dispatch({type: types.clearItemsOnShoppingCart})
+
+
     const data = {
         dataItemsMenu: {
             dataItemsPizza: state.dataItemsPizza,
@@ -132,6 +135,7 @@ const UiItemsContextProvider = ({children})=> {
         getTotalItemsOnCart,
         removeItemToShoppingCart,
         addTotalPriceAndItemsOnCart,
+        clearItemsShoppingCart,
     }
 
     return (

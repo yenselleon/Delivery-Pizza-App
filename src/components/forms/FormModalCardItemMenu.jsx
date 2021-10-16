@@ -82,6 +82,7 @@ const FormModalCardItemMenu = () => {
           title: title,
           total: total,
           itemsCount: itemsTotal,
+          status: "onHold"
         });
         onClose();
       }}

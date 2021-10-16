@@ -35,6 +35,12 @@ const UiItemsContextReducer = (state , action) => {
                 },
             }
 
+        case types.clearItemsOnShoppingCart:
+            return {
+                ...state,
+                itemsShoppingCart: [],
+            }
+
         case types.removeItemShoppingCart:
             return {
                 ...state,
