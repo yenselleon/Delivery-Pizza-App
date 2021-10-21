@@ -8,22 +8,20 @@ import { Step, Steps, useSteps } from 'chakra-ui-steps';
 
 
 
+const steps = [
+  { label: 'CheckOut', content: <CheckoutListAndPayCard />,},
+  { label: 'Confirm', content: <CardConfirmDataCheckOut/>,},
+  { label: 'End', content: (<div>hola</div>),},
+];
 
 
 const CheckOutScreen = () => {
   
-  const { nextStep,/*  prevStep, setStep, reset, */ activeStep } = useSteps({
-    initialStep: 0,
-  });
-
-  const { itemsShoppingCart } = useContext(UiItemsContext);
   
-  const steps = [
-    { label: 'CheckOut', content: <CheckoutListAndPayCard nextStep={nextStep}/>,},
-    { label: 'Confirm', content: <CardConfirmDataCheckOut nextStep={nextStep}/>,},
-    { label: 'End', content: (<div>hola</div>),},
-  ];
 
+  const { itemsShoppingCart, stepsHook} = useContext(UiItemsContext);
+  
+  const {activeStep} = stepsHook;
 
   useEffect(() => {
     localStorage.setItem(
@@ -46,7 +44,7 @@ const CheckOutScreen = () => {
     >
 
       <Steps activeStep={activeStep} responsive={false} >
-          {steps.map(({ label, content }) => (
+          {steps.map(({ label, content}) => (
             <Step label={label} key={label}>
               {
                 content

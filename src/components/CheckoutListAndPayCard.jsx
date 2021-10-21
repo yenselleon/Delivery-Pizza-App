@@ -8,12 +8,13 @@ import CardItemShoppingCart from "./CardItemShoppingCart";
 import FormCreditCardCheckuot from "./forms/FormCreditCardCheckuot";
 import TableItemsCheckOutPayment from "./TableItemsCheckOutPayment";
 
-const CheckoutListAndPayCard = ({nextStep}) => {
+const CheckoutListAndPayCard = () => {
 
   const [payment, setPayment] = useState("creditCard");
 
-  const { itemsShoppingCart, totalPriceAndItemsOnCart } = useContext(UiItemsContext);
+  const { itemsShoppingCart, totalPriceAndItemsOnCart, stepsHook } = useContext(UiItemsContext);
 
+  const {nextStep} = stepsHook;
 
   return (
     <Flex

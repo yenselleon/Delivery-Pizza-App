@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import {collection, doc, setDoc, getDocs, query } from 'firebase/firestore/lite';
+import {collection, doc, setDoc, getDocs, query, where } from 'firebase/firestore/lite';
 import { dbFirestore} from '../firebase/firebaseConfig';
 
 import UserContext from '../context/UserContext/UserContext';
@@ -23,7 +23,7 @@ export const AppRouter = () => {
 
     const {logged} = useContext(UserContext);
 
-    const { itemsShoppingCart } = useContext(UiItemsContext);
+    const { itemsShoppingCart, pushItemToShoppingCart } = useContext(UiItemsContext);
 
 
     useEffect(() => {
@@ -35,43 +35,78 @@ export const AppRouter = () => {
                 // https://firebase.google.com/docs/reference/js/firebase.User
                 const uid = user.uid;
                 // ...
-                
+
+                //ref coleccion docs
+                const collectionOnHoldRef = collection(dbFirestore, `shoppingData/${uid}/items`);
+                const q = query(collectionOnHoldRef, where("status", "==", "onHold"));
+                const getDocsSnapshot = await getDocs(q);
+
+                //ids items in shoppping cart
+                const uidItemsShoppingCartArr = itemsShoppingCart.map((item)=> item?.id)
+
                 //Include Items on cart shopping in current user data firestore
                 if(itemsShoppingCart.length > 0){
+
                     console.log("usuario N°", uid)
-
-                    //verified and get data items onHold in firestore
-
-                    const collectionRefGetData = collection(dbFirestore, `shoppingData/${uid}/onHold`);
                     
-                    const q = query(collectionRefGetData);
 
-                    const getDocsSnapshot = await getDocs(q);
-
+                    let uidSnapshotDocsArr = []
+                    
                     getDocsSnapshot.forEach((doc)=> {
 
                         const everyDocContent = doc.data();
-                        const arrayDocs = Object.values(everyDocContent);
+                        const arrayDocs = Object.values({everyDocContent});
+                        arrayDocs.map((item)=> uidSnapshotDocsArr.push(item.id))
 
-                        console.log(arrayDocs);
                     })
-
                     
-                    const collectionRef = collection(dbFirestore, `shoppingData/${uid}/onHold`);
+                    //include in firebase itemsShoppingcart
+                    itemsShoppingCart.forEach(async(item)=> {
 
-                    const docRef = doc(collectionRef)
+                        if(!uidSnapshotDocsArr.includes(item.id)){
+                            
+                            //Add items on shopping cart
+        
+                            const docRef = doc(collectionOnHoldRef, item.id)
+        
+                            await setDoc(docRef, item)
+                                .then(()=> {
+                                    console.log("data anexada al firestore");
+                                })
+                                .catch((error)=>{
+                                    console.log({error});
+                                })
 
-                    //Add user aditional information 
 
-                    await setDoc(docRef, {...itemsShoppingCart})
-                        .then(()=> {
-                            console.log("data anexada al firestore");
-                        })
-                        .catch((error)=>{
-                            console.log({error});
-                        })
+                            //verified and get data items onHold in firestore
+                            getDocsSnapshot.forEach((doc)=> {
 
+                                const everyDocContent = doc.data();
+                                
+                                if(!uidItemsShoppingCartArr.includes(everyDocContent.id)){
+        
+                                    pushItemToShoppingCart(everyDocContent);
+                                    console.log("Push item on cart: ",everyDocContent.id)
+        
+                                }
+                            })
+                        }
+
+                    })
+                    
                 }else{
+                    //verified and get data items onHold in firestore
+                    getDocsSnapshot.forEach((doc)=> {
+
+                        const everyDocContent = doc.data();
+                        
+                        if(!uidItemsShoppingCartArr.includes(everyDocContent.id)){
+
+                            pushItemToShoppingCart(everyDocContent);
+                            console.log("Push item on cart: ",everyDocContent.id)
+
+                        }
+                    })
 
                 }
 
@@ -84,7 +119,7 @@ export const AppRouter = () => {
             verifiedIsAuth();
         });
 
-    }, [itemsShoppingCart.length, auth])
+    }, [itemsShoppingCart.length, auth, logged])
     
     return (
         <Router>

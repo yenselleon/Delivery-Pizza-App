@@ -1,10 +1,13 @@
 import { useDisclosure } from '@chakra-ui/hooks';
-import React, {createContext, useReducer, useEffect} from 'react';
+import React, {createContext, useReducer, useEffect, useContext} from 'react';
 import { totalShoppingCart } from '../../helper/totalTicketsList';
 import { types } from '../types';
 import UiItemsContextReducer from './UiItemsContextReducer';
+import { doc, deleteDoc, collection } from "firebase/firestore/lite";
+import { dbFirestore} from '../../firebase/firebaseConfig'
+import UserContext from '../UserContext/UserContext';
 
-
+import { useSteps } from 'chakra-ui-steps';
 
 const UiItemsContext = createContext();
 
@@ -22,6 +25,8 @@ const UiItemsContextProvider = ({children})=> {
 
     const [state, dispatch] = useReducer(UiItemsContextReducer, initialState)
 
+    const {user, logged} = useContext(UserContext);
+
     useEffect(() => {
         
         localStorage.setItem('itemsShoppingCart',JSON.stringify(state.itemsShoppingCart))
@@ -31,6 +36,18 @@ const UiItemsContextProvider = ({children})=> {
     const { isOpen: isOpenMenuCart, onOpen: onOpenMenuCart, onClose: onCloseMenuCart} = useDisclosure();
 
     const { isOpen: isOpenSearchInput, onOpen: onOpenSearchInput, onClose: onCloseSearchInput} = useDisclosure();
+
+    const { nextStep, prevStep, setStep, reset, activeStep } = useSteps({
+        initialStep: 0,
+      });
+
+    const stepsHook = {
+        nextStep,
+        prevStep,
+        setStep,
+        reset,
+        activeStep,
+    }
 
 
     const openAndCloseHookMenuCart = {
@@ -81,8 +98,16 @@ const UiItemsContextProvider = ({children})=> {
         
     }
 
-    const removeItemToShoppingCart = (id) => {
+    const removeItemToShoppingCart = async(id) => {
+        if(logged){
+            console.log("idUser", user.uid)
+            const collectionOnHoldRef = collection(dbFirestore, `shoppingData/${user.uid}/items`);
+            const docRef = doc(collectionOnHoldRef, `${id}`);
+
+            await deleteDoc(docRef);
+        }
         
+
         dispatch({
             type: types.removeItemShoppingCart,
             payload: id
@@ -136,6 +161,7 @@ const UiItemsContextProvider = ({children})=> {
         removeItemToShoppingCart,
         addTotalPriceAndItemsOnCart,
         clearItemsShoppingCart,
+        stepsHook
     }
 
     return (

@@ -96,6 +96,7 @@ const UserContextProvider = ({children})=> {
                         payload: {
                             ...snapshot.data(),
                             email,
+                            uid: userCredential.user.uid,
                         }
                     })
                 })

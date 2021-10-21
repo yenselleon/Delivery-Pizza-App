@@ -3,16 +3,26 @@ import { FormControl, FormLabel } from '@chakra-ui/form-control'
 import { Input } from '@chakra-ui/input'
 import { Box, Text } from '@chakra-ui/layout'
 import { Field, Form, Formik } from 'formik'
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
+import UiItemsContext from '../context/UiItemsContext/UiItemsContext'
+import UserContext from '../context/UserContext/UserContext'
 
-const initialValues = {
-    fullName: '',
-    address: '',
-    phone: '',
-    email: '',
-}
+
 
 const CardConfirmDataCheckOut = () => {
+
+    const { stepsHook } = useContext(UiItemsContext);
+
+    const {user} = useContext(UserContext);
+
+    const {nextStep} = stepsHook;
+
+    /* useEffect(() => {
+        clearItemsShoppingCart();
+
+    }, [clearItemsShoppingCart]) */
+
+
     return (
         <Box
             bg="white"
@@ -24,7 +34,17 @@ const CardConfirmDataCheckOut = () => {
             mb="3"
         >
             <Formik
-                initialValues={initialValues}
+                initialValues={{
+                    fullName: user.fullName,
+                    address: user.address,
+                    phone: user.phone,
+                    email: user.email,
+                }}
+                onSubmit={(values)=> {
+
+                    nextStep()
+
+                }}
             >
                 <Form>
 

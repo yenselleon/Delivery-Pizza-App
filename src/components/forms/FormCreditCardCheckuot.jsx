@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { PaymentInputsWrapper, usePaymentInputs } from "react-payment-inputs";
 import { Formik, Field, Form } from "formik";
 import images from "react-payment-inputs/images";
 import { formCreditCard } from "../../styles/components/forms/formCreditCard";
 import { Button, Input, Box, Select } from "@chakra-ui/react";
-import _ from "lodash";
+
+import { doc, updateDoc, collection } from "firebase/firestore/lite";
+import { dbFirestore} from '../../firebase/firebaseConfig';
+
+import UserContext from "../../context/UserContext/UserContext";
+import UiItemsContext from "../../context/UiItemsContext/UiItemsContext";
+
+
 
   const initialValues = {
     cardNumber: "",
@@ -14,7 +21,7 @@ import _ from "lodash";
     country: "",
   }
 
-const FormCreditCardCheckuot = ({nextStep}) => {
+const FormCreditCardCheckuot = () => {
 
   const [randomValues, setRandomValues] = useState(false);
     
@@ -26,16 +33,39 @@ const FormCreditCardCheckuot = ({nextStep}) => {
         getCVCProps,
         wrapperProps,
         } = usePaymentInputs();
+    
+    const { user} = useContext(UserContext);
+    const { itemsShoppingCart, stepsHook, clearItemsShoppingCart } = useContext(UiItemsContext);
+
+    const {nextStep} = stepsHook;
 
 
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={(data)=> {
+      onSubmit={async(data)=> {
 
-        console.log(data)
+        const collectionOnHoldRef = collection(dbFirestore, `shoppingData/${user.uid}/items`);
+
+
+        const promises = itemsShoppingCart.map( async(item)=> {
+
+          const docRef = doc(collectionOnHoldRef, item.id)
+          
+          console.log("Data Actualizada", item)
+          
+          await updateDoc(docRef, {
+            status: "checkOut"
+          })
+        })
+
+        await Promise.all(promises);
+
+        
+        
+        console.log("Clear and next")
         nextStep();
-
+        clearItemsShoppingCart();
 
       }}
       validate={() => {
