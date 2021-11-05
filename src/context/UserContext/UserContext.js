@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer } from "react";
+import React, { createContext, useEffect, useMemo, useReducer } from "react";
 import {getAuth, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword} from 'firebase/auth'
 import {collection, doc, setDoc, getDoc } from 'firebase/firestore/lite'
 
@@ -111,6 +111,7 @@ const UserContextProvider = ({children})=> {
 
     }
 
+
     const singOutUser = async()=> {
 
         await signOut(auth).then(()=> {
@@ -128,10 +129,12 @@ const UserContextProvider = ({children})=> {
         })
     }
 
-    const addItemsOnShoppingCart = (items = {})=> {
-
-    }
-
+    const updateUserContext = (user)=> {
+        dispatch({
+            type: types.uptadeUserContext, 
+            payload: user
+        })
+    } 
 
     const data = {
         user: state.user,
@@ -139,11 +142,11 @@ const UserContextProvider = ({children})=> {
         createNewUser,
         singOutUser,
         loginUser,
-        addItemsOnShoppingCart
+        updateUserContext
     }
 
     return (
-        <UserContext.Provider value={data}>
+        <UserContext.Provider value={useMemo(()=> (data), [] ) }>
             {children}
         </UserContext.Provider>
     )

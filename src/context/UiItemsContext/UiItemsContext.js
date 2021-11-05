@@ -1,5 +1,5 @@
 import { useDisclosure } from '@chakra-ui/hooks';
-import React, {createContext, useReducer, useEffect, useContext} from 'react';
+import React, {createContext, useReducer, useEffect, useContext, useMemo} from 'react';
 import { totalShoppingCart } from '../../helper/totalTicketsList';
 import { types } from '../types';
 import UiItemsContextReducer from './UiItemsContextReducer';
@@ -87,6 +87,7 @@ const UiItemsContextProvider = ({children})=> {
         
     }
 
+
     const pushItemToShoppingCart = (item)=> {
 
         
@@ -165,7 +166,10 @@ const UiItemsContextProvider = ({children})=> {
     }
 
     return (
-        <UiItemsContext.Provider value={data}>
+        <UiItemsContext.Provider value={useMemo(()=> (data), [
+            isOpenAndCloseHookSearchInput,
+            openAndCloseHookMenuCart,
+        ]) }>
             {children}
         </UiItemsContext.Provider>
     )

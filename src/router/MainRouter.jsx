@@ -36,7 +36,8 @@ const MainRouter = () => {
             <Switch>
 
                 <Route exact path="/" component={HomeScreen} />
-                <PrivateRoute path="/checkout/" component={CheckOutScreen} isAuthenticated={logged}/>
+                <PrivateRoute exact path="/checkout/:step/:uid" component={CheckOutScreen} isAuthenticated={logged}/>
+                <PrivateRoute exact path="/checkout/:step/:uid/:purchaseTikectId" component={CheckOutScreen} isAuthenticated={logged}/>
 
                 <Redirect to='/' />
 

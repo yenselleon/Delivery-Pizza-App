@@ -30,7 +30,7 @@ const Navbar = () => {
             openAndCloseHookMenuCart,
             clearItemsShoppingCart } = useContext(UiItemsContext);
 
-    const {singOutUser, logged} = useContext(UserContext);
+    const {singOutUser, logged, user} = useContext(UserContext);
 
 
     const {isOpenMenuCart,
@@ -203,7 +203,16 @@ const Navbar = () => {
                                                 alignItems="center"
                                             >
                                                 <Text color="white" fontWeight="bold">Total: {totalPriceAndItemsOnCart.totalPriceOnCart}$</Text>
-                                                <Link  as={LinkRouterDom} to="/checkout" _hover={{textDecoration: 'none'}}>
+                                                <Link  
+                                                    as={LinkRouterDom} 
+                                                    to={
+                                                        (user) ?
+                                                            `/checkout/0/${user.uid}`
+                                                        :
+                                                            `/auth/`
+                                                    } 
+                                                    _hover={{textDecoration: 'none'}}
+                                                >
                                                     
                                                     <Button
                                                         size="sm"

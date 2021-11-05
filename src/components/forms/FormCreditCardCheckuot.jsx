@@ -1,15 +1,19 @@
 import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
+
 import { PaymentInputsWrapper, usePaymentInputs } from "react-payment-inputs";
 import { Formik, Field, Form } from "formik";
 import images from "react-payment-inputs/images";
 import { formCreditCard } from "../../styles/components/forms/formCreditCard";
 import { Button, Input, Box, Select } from "@chakra-ui/react";
 
-import { doc, updateDoc, collection } from "firebase/firestore/lite";
+import { doc, updateDoc, collection, setDoc } from "firebase/firestore/lite";
 import { dbFirestore} from '../../firebase/firebaseConfig';
 
 import UserContext from "../../context/UserContext/UserContext";
 import UiItemsContext from "../../context/UiItemsContext/UiItemsContext";
+
+import { v4 as uuidv4 } from "uuid";
 
 
 
@@ -23,6 +27,8 @@ import UiItemsContext from "../../context/UiItemsContext/UiItemsContext";
 
 const FormCreditCardCheckuot = () => {
 
+  const history = useHistory()
+
   const [randomValues, setRandomValues] = useState(false);
     
     const {
@@ -35,18 +41,19 @@ const FormCreditCardCheckuot = () => {
         } = usePaymentInputs();
     
     const { user} = useContext(UserContext);
-    const { itemsShoppingCart, stepsHook, clearItemsShoppingCart } = useContext(UiItemsContext);
+    const { itemsShoppingCart, clearItemsShoppingCart, totalPriceAndItemsOnCart } = useContext(UiItemsContext);
 
-    const {nextStep} = stepsHook;
 
 
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={async(data)=> {
+      onSubmit={async(dataTDC)=> {
 
         const collectionOnHoldRef = collection(dbFirestore, `shoppingData/${user.uid}/items`);
+        const collectionPurchaseRef = collection(dbFirestore, `shoppingData/${user.uid}/purchase`);
 
+        const itemsId = itemsShoppingCart.map(item => item.id);
 
         const promises = itemsShoppingCart.map( async(item)=> {
 
@@ -61,10 +68,27 @@ const FormCreditCardCheckuot = () => {
 
         await Promise.all(promises);
 
-        
+        const purchaseObject = {
+          methodPayment: "Credit Card",
+          items: itemsId,
+          status: "checkOut",
+          id: uuidv4(),
+          dataPaid: dataTDC,
+          totalPaid: totalPriceAndItemsOnCart.totalPriceOnCart,
+          totalItemsPurchased: totalPriceAndItemsOnCart.totalItemsOnCart,
+        }
+
+        await setDoc(doc(collectionPurchaseRef, purchaseObject.id), purchaseObject)
+            .then(()=> {
+                console.log("datos de la compra realiza anexada firestore");
+            })
+            .catch((error)=>{
+                console.log({error});
+            })
         
         console.log("Clear and next")
-        nextStep();
+        
+        history.replace(`/checkout/1/${user.uid}/${purchaseObject.id}`)
         clearItemsShoppingCart();
 
       }}

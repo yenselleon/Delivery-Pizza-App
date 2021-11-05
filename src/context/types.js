@@ -1,6 +1,6 @@
 export const types = {
 
-    getDataItemsMenuPizza: '[UI] GET items menu',
+    getDataItems: '[UI] GET items menu',
     getItemMenyById: '[Modal] GET item menu from id',
     pushItemToShoppingCart: '[ShoppingCart] push item to shopping cart',
     removeItemShoppingCart: '[ShoppingCart] remove item to shopping cart',
@@ -10,4 +10,6 @@ export const types = {
     addUserState: '[User] Add user on state',
     logOut: '[User] Log Out User',
     loginUser: '[User] Login User',
+    setSelectedPurchaseItem: '[ui] set selected item purchased',
+    uptadeUserContext: '[User] uptade info user context provider',
 }

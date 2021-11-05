@@ -16,6 +16,12 @@ const UiItemsContextReducer = (state , action) => {
                 ...state,
                 selectedItem: payload,
             }
+            
+        case types.setSelectedPurchaseItem:
+            return {
+                ...state,
+                selectedPurchaseItem: payload,
+            }
 
         case types.pushItemToShoppingCart:
             return {

@@ -43,7 +43,6 @@ export const AppRouter = () => {
 
                 //ids items in shoppping cart
                 const uidItemsShoppingCartArr = itemsShoppingCart.map((item)=> item?.id)
-
                 //Include Items on cart shopping in current user data firestore
                 if(itemsShoppingCart.length > 0){
 
@@ -121,6 +120,7 @@ export const AppRouter = () => {
 
     }, [itemsShoppingCart.length, auth, logged])
     
+
     return (
         <Router>
             <div >

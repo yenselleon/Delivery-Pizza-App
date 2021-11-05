@@ -1,37 +1,34 @@
 import React, { useContext, useEffect } from "react";
-import { Container  } from "@chakra-ui/react";
+import { Container } from "@chakra-ui/react";
 import UiItemsContext from "../context/UiItemsContext/UiItemsContext";
-import CheckoutListAndPayCard from '../components/CheckoutListAndPayCard';
-import CardConfirmDataCheckOut from '../components/CardConfirmDataCheckOut';
-
-import { Step, Steps, useSteps } from 'chakra-ui-steps';
 
 
+import { Step, Steps } from 'chakra-ui-steps';
+import { useParams } from "react-router-dom";
+import stepsCheckOut from "../helper/stepsCheckOut";
 
-const steps = [
-  { label: 'CheckOut', content: <CheckoutListAndPayCard />,},
-  { label: 'Confirm', content: <CardConfirmDataCheckOut/>,},
-  { label: 'End', content: (<div>hola</div>),},
-];
 
 
 const CheckOutScreen = () => {
   
-  
+  const {step} = useParams();
 
-  const { itemsShoppingCart, stepsHook} = useContext(UiItemsContext);
   
-  const {activeStep} = stepsHook;
-
+  const { itemsShoppingCart} = useContext(UiItemsContext);
+  console.log("render checkOut")
+  
   useEffect(() => {
-    localStorage.setItem(
-      "itemsShoppingCart",
-      JSON.stringify(itemsShoppingCart)
-    );
-  }, [itemsShoppingCart]);
 
+    if(itemsShoppingCart.length > 0){
+      localStorage.setItem(
+        "itemsShoppingCart",
+        JSON.stringify(itemsShoppingCart)
+        );
+
+    }
+  }, [itemsShoppingCart.length]);
   
-
+  
   return (
     <Container
       maxW={["100%", "100%", "container.lg", "container.lg"]}
@@ -42,9 +39,8 @@ const CheckOutScreen = () => {
       pt="4"
       bg="white"
     >
-
-      <Steps activeStep={activeStep} responsive={false} >
-          {steps.map(({ label, content}) => (
+      <Steps activeStep={Number(step)} responsive={false} mb="3">
+          {stepsCheckOut.map(({ label, content}) => (
             <Step label={label} key={label}>
               {
                 content

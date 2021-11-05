@@ -1,0 +1,97 @@
+.timeline-block {
+    position: relative;
+    height: 180px;
+    z-index: 1;
+    margin: 2rem 0px;
+    width: 50%;
+    
+  }
+  
+.timeline-block .timeline-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  height: 100%;
+  width: 6px;
+  background: #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  
+}
+
+.timeline-block .timeline-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: 0;
+  width: 6px;
+  border-radius: 6px;
+  transition: all .3s ease-in-out;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7abcff+0,60abf8+44,4096ee+100;Blue+3D+%2314 */
+  background: linear-gradient(to bottom, #7abcff 0%,#60abf8 44%,#4096ee 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  cursor: pointer;
+}
+
+.timeline-bookmark {
+  position: absolute;
+  top: 0;
+  left: calc(50% + 15px);
+  display: block;
+  width: max-content;
+}
+
+.timeline-bookmark>div{
+  margin-top: -11px;
+  margin-left: 5px;
+}
+
+div.timeline-bookmark::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -21px;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background-color: #d2d2d2;
+  box-shadow: 0 0 0 3px #4286f4, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 3px rgba(0, 0, 0, 0.05);
+  transition: all .3s ease-in-out;
+  cursor: pointer;
+}
+
+div.timeline-bookmark.visited::before {
+  opacity: 0.7;
+}
+
+
+div.timeline-bookmark:hover::before {
+  transform: scale(1.5);
+  opacity: 1;
+}
+
+.timeline-marker {
+  position: absolute;
+  top: 0px;
+  left: 36px;
+  z-index: 0;
+  opacity: 0.3;
+}
+
+.timeline-marker>div.text{
+  margin-top: -14px;
+  font-style: italic;
+}
+
+div.timeline-marker::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -21px;
+  height: 0px;
+  width: 12px;
+  border-bottom: 2px solid #000;
+}

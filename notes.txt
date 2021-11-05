@@ -1,0 +1,11 @@
+aprendizaje
+
+useContext -
+    - El useContext tiene una desventaja de rendimiento bastante marcada con respecto a las renderinzaciones que se generan al llamar el context.
+        ya que al cambiar el estado todos sus componentes vuelven a renderizarse.
+        - Para evitar esto podemos utilizar el memo y su segundo argumento para evitar que se renderize continuamente si ciertos parametros no cambian.
+        - tambien podemos evitar la renderizacion continua de todo sus padres evitando llamar al context utilizando un useState
+        - los parametros encapsulados en el useContext deben ser lo mas pequeños posibles y de igual manera evitar su distribucion atraves de todo el
+            DOM hace que se evita el continuo renderizado del mismo.
+
+

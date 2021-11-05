@@ -27,6 +27,12 @@ export const UserContextReducer = (state, action)=> {
                 logged: true,
             }
 
+        case types.uptadeUserContext:
+            return {
+                ...state,
+                user: {...state.user,...payload},
+            }
+
     
         default:
             return state;
