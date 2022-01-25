@@ -43,7 +43,7 @@ const HomeScreen = () => {
       maxW={["100%", "100%", "container.lg", "container.lg"]}
       height="auto"
       centerContent
-      p="0"
+      paddingBottom={["5","20"]}
     >
       {/* Modal card */}
       <ModalCardItemMenu />

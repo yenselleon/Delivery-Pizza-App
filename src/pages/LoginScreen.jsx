@@ -14,6 +14,7 @@ import {Formik, Form, Field} from 'formik'
 import { Link as LinkRouterDom} from 'react-router-dom';
 import * as Yup from 'yup';
 
+import avilaPizza from '../img/AvilaPizza.svg'
 
 import coolSvgShappe from '../img/cool-background.svg'
 import blob from '../img/blob.svg'
@@ -33,8 +34,8 @@ const validationLoginSchema = Yup.object().shape({
 
 const LoginScreen = () => {
 
-    const {loginUser} = useContext(UserContext)
-
+    const {loginUser,logged} = useContext(UserContext)
+    console.log(logged)
 
     return (
         <Flex bg="gray.100" height="100vh">
@@ -47,8 +48,16 @@ const LoginScreen = () => {
                     "50%", // 768px upwards
                     "50%", // 992px upwards
                 ]}
+                justifyContent={"center"}
+                alignItems={"center"}
             >
-                <Text>Hola mundo</Text>
+                <Box
+                    width={"200px"}
+                    height={"200px"}
+                >
+                    <img src={avilaPizza} alt="avila pizza logo" />
+
+                </Box>
             </Box>
             
             <Box 
@@ -139,9 +148,10 @@ const LoginScreen = () => {
                         onSubmit={async(values)=> {
 
                             try {
-                                await validationLoginSchema.isValid(initialValues)
-    
-                                await loginUser(values);
+
+                                await Promise.all([validationLoginSchema.isValid(initialValues), loginUser(values)])
+                               
+
                                 
                             } catch (error) {
                                 console.log(error)

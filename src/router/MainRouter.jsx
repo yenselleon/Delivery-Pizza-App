@@ -12,6 +12,8 @@ import HomeScreen from '../pages/HomeScreen'
 import PrivateRoute from './PrivateRoute';
 
 import UserContext from '../context/UserContext/UserContext'
+import UserAcountScreen from '../pages/UserAcountScreen';
+import Footer from '../components/Footer';
 
 const MainRouter = () => {
 
@@ -38,10 +40,13 @@ const MainRouter = () => {
                 <Route exact path="/" component={HomeScreen} />
                 <PrivateRoute exact path="/checkout/:step/:uid" component={CheckOutScreen} isAuthenticated={logged}/>
                 <PrivateRoute exact path="/checkout/:step/:uid/:purchaseTikectId" component={CheckOutScreen} isAuthenticated={logged}/>
+                <PrivateRoute exact path="/myAcount" component={UserAcountScreen} isAuthenticated={logged}/>
 
                 <Redirect to='/' />
 
             </Switch>
+
+            <Footer/>
         
         </Container >
     )

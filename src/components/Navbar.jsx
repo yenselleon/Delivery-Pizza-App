@@ -20,6 +20,8 @@ import { Link as LinkRouterDom, useHistory} from 'react-router-dom';
 import MobileBottomNavbar from './MobileBottomNavbar';
 import UserContext from '../context/UserContext/UserContext';
 
+import avilaPizza from '../img/AvilaPizza.svg'
+
 const Navbar = () => {
 
     const history = useHistory();
@@ -31,7 +33,6 @@ const Navbar = () => {
             clearItemsShoppingCart } = useContext(UiItemsContext);
 
     const {singOutUser, logged, user} = useContext(UserContext);
-
 
     const {isOpenMenuCart,
             onOpenMenuCart,
@@ -55,7 +56,7 @@ const Navbar = () => {
                 align="center"
                 width="100%"
                 boxShadow={['dark-lg', 'lg', 'lg', 'lg']}
-                padding="4"
+                padding="1"
                 top={["none","0"]}
                 bottom={["0","none"]}
                 bg={['brand.base', "whiteAlpha.900"]}
@@ -69,9 +70,18 @@ const Navbar = () => {
                     display={['none', 'flex', 'flex', 'flex']}
                 >
                     {/* logo */}
-                    <Flex width="100px" border="1px solid red">
-        
-                    </Flex>
+                    <Link
+                        width="80px" 
+                        height="60px"
+                        marginLeft="10px"
+                        display="flex"
+                        justifyContent="center"
+                        cursor="pointer"
+                        as={LinkRouterDom}
+                        to="/" 
+                    >
+                        <img src={avilaPizza} alt="" />
+                    </Link>
                     <Spacer />
         
                     {/* Search Input */}
@@ -251,7 +261,13 @@ const Navbar = () => {
                                 (logged)
                                 ?   
                                     <MenuList> 
-                                        <MenuItem>My Account</MenuItem>
+                                        <MenuItem
+                                            onClick={
+                                                ()=> history.push('/myAcount')
+                                            }
+                                        >
+                                            My Account
+                                        </MenuItem>
                                         <MenuItem
                                             onClick={async()=> {
                                                 await singOutUser();

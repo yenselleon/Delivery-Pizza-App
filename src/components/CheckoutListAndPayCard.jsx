@@ -22,6 +22,7 @@ const CheckoutListAndPayCard = () => {
       flexDirection={["column", "column", "row", "row"]}
       width="100%"
       height="auto"
+      paddingBottom={["5","20"]}
     >
       {/* Items List */}
       <Box width={["100%", "100%", "60%", "60%"]}>

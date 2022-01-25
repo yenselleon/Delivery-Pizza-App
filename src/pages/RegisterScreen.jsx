@@ -8,7 +8,10 @@ import { Box,
          Input,
          Button,
          Link,
-         Image } from '@chakra-ui/react'
+         Image, 
+         LinkBox} from '@chakra-ui/react'
+
+import avilaPizza from '../img/AvilaPizza.svg'
 
 import coolSvgShappe from '../img/cool-background.svg'
 import blob from '../img/blob.svg'
@@ -60,8 +63,16 @@ const RegisterScreen = () => {
                     "50%", // 768px upwards
                     "50%", // 992px upwards
                 ]}
+                justifyContent={"center"}
+                alignItems={"center"}
             >
-                <Text>Hola mundo</Text>
+                <Box
+                    width={"200px"}
+                    height={"200px"}
+                >
+                    <img src={avilaPizza} alt="avila pizza logo" />
+
+                </Box>
             </Box>
             <Box 
                 p="4"

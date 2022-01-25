@@ -38,6 +38,7 @@ const CheckOutScreen = () => {
       mt={['0', '3', '5']}
       pt="4"
       bg="white"
+      paddingBottom={["5","20"]}
     >
       <Steps activeStep={Number(step)} responsive={false} mb="3">
           {stepsCheckOut.map(({ label, content}) => (

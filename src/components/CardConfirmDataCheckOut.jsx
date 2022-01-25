@@ -10,7 +10,7 @@ import { collection, doc, getDoc, updateDoc } from 'firebase/firestore/lite';
 import { dbFirestore } from '../firebase/firebaseConfig';
 
 import { Field, Form, Formik } from 'formik';
-import React, { useContext, useEffect, useState, useCallback } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { useParams, useHistory } from "react-router-dom";
 
@@ -35,8 +35,7 @@ const CardConfirmDataCheckOut = () => {
     const collectionPurchaseTikects = collection(dbFirestore, `shoppingData/${user.uid}/purchase`);
     const docPurchasedRef = doc(collectionPurchaseTikects, `${purchaseTikectId}`);
 
-    const getData = useCallback(
-        () => {
+    const getData = ()=> {
             getDoc(docPurchasedRef).then(async(doc)=>{
                 console.log("peticion")
                 if(!doc.exists()){
@@ -51,8 +50,7 @@ const CardConfirmDataCheckOut = () => {
 
                     //Avoid that another tickect will be update
                     if(purchasedItemInfo.status !== "checkOut") return history.replace(`/`);
-
-
+                    
                     setPurchasedTickectData(purchasedItemInfo);
                     
                     setLoading(false);
@@ -61,9 +59,7 @@ const CardConfirmDataCheckOut = () => {
         
             })
             
-        },
-        [purchaseTikectId],
-    )
+        }
 
     useEffect(() => {
         
@@ -85,7 +81,11 @@ const CardConfirmDataCheckOut = () => {
     console.log(purchasedTickectData)
 
     return (
-        <Skeleton isLoaded={!loading} mb="5">
+        <Skeleton 
+            isLoaded={!loading} 
+            mb="5"
+            paddingBottom={["5","20"]}
+        >
 
             <Stack 
                 direction={["column","column", "row"]}
@@ -194,7 +194,7 @@ const CardConfirmDataCheckOut = () => {
                             await Promise.all( [...promiseUpdateArr,uptadeUser(), purchasedTickect()])
 
                             updateUserContext(values);
-                            history.replace(`/checkout/2/${user.uid}/${purchasedTickectData.id}`)
+                            return history.replace(`/checkout/2/${user.uid}/${purchasedTickectData.id}`)
                             /* nextStep() */
                             /* TODO */
                             //una vez se confirme actualizar todos los datos del usuario en la firestore, aun si son los mismos

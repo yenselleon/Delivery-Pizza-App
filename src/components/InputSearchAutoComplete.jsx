@@ -7,9 +7,12 @@ import { pizzaMenuList } from "../db/menuPizzaList";
 
 import UiItemsContext from "../context/UiItemsContext/UiItemsContext";
 import { CloseButton } from "@chakra-ui/close-button";
+import ModalItemMenuContext from "../context/ModalItemMenuContext/ModalItemMenuContext";
 
 const InputSearchAutoComplete = () => {
-    const { dataItemsMenu, getDataItems, isOpenAndCloseHookSearchInput } = useContext(UiItemsContext);
+    const { dataItemsMenu, getDataItems, isOpenAndCloseHookSearchInput, getItemMenuById } = useContext(UiItemsContext);
+
+    const { onOpenModalCardMenu } = useContext(ModalItemMenuContext);
 
     const { /* isOpenSearchInput, onOpenSearchInput, */ onCloseSearchInput } = isOpenAndCloseHookSearchInput;
 
@@ -77,7 +80,18 @@ const InputSearchAutoComplete = () => {
 
                         }).map((items, index)=> (
 
-                            <HStack key={items.id} isTruncated height="auto" width="100%" mb="1">
+                            <HStack 
+                              key={items.id} 
+                              isTruncated 
+                              height="auto" 
+                              width="100%" 
+                              mb="1"
+                              onClick={()=> {
+                                getItemMenuById(items.id);
+                                onOpenModalCardMenu();
+                              }}
+                              cursor={"pointer"}
+                            >
                                 <Image src={items.imageThumbnail} width="50px" height="50px"/>
                                 <Text>{items.title}</Text>
                             </HStack>

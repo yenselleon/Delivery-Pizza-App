@@ -6,6 +6,8 @@ import { Box, Link, Stack, Text } from "@chakra-ui/layout";
 import { FaHome, FaSearch, FaShoppingCart, FaUserAlt } from "react-icons/fa";
 import UiItemsContext from "../context/UiItemsContext/UiItemsContext";
 
+import { useHistory } from 'react-router-dom';
+
 
 const MobileBottomNavbar = () => {
 
@@ -14,7 +16,7 @@ const MobileBottomNavbar = () => {
             } = useContext(UiItemsContext);
 
     const { onOpenSearchInput } = isOpenAndCloseHookSearchInput;
-    
+    const history = useHistory();
 
   return (
     <Stack
@@ -93,9 +95,11 @@ const MobileBottomNavbar = () => {
                 p="0"
                 borderRadius="50%"
               >
-                {itemsShoppingCart.length <= 9
-                  ? itemsShoppingCart.length
-                  : "9+"}
+                {
+                  itemsShoppingCart.length <= 9
+                    ? itemsShoppingCart.length
+                    : "9+"
+                }
               </Text>
             </Box>
           )}
@@ -110,6 +114,9 @@ const MobileBottomNavbar = () => {
         bg={["brand.base"]}
         shadow="dark-lg"
         icon={<FaUserAlt />}
+        onClick={
+          ()=> history.push('/myAcount')
+        }
       />
     </Stack>
   );

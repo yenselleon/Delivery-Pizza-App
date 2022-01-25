@@ -146,7 +146,7 @@ const UserContextProvider = ({children})=> {
     }
 
     return (
-        <UserContext.Provider value={useMemo(()=> (data), [] ) }>
+        <UserContext.Provider value={useMemo(()=> (data), [state.logged] )}>
             {children}
         </UserContext.Provider>
     )
