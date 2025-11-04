@@ -43,12 +43,29 @@ const FormCreditCardCheckuot = () => {
     const { user} = useContext(UserContext);
     const { itemsShoppingCart, clearItemsShoppingCart, totalPriceAndItemsOnCart } = useContext(UiItemsContext);
 
-
+    // Debug: Verificar estado del usuario
+    console.log('🔍 FormCreditCard - Usuario completo:', user);
+    console.log('🔍 FormCreditCard - user.uid:', user?.uid);
 
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={async(dataTDC)=> {
+
+        // Validación crítica del usuario
+        console.log('🚀 Submit iniciado');
+        console.log('👤 Usuario en submit:', user);
+        console.log('🆔 UID en submit:', user?.uid);
+
+        if (!user || !user.uid) {
+          console.error('❌ ERROR: Usuario no tiene UID');
+          console.error('❌ Objeto user:', JSON.stringify(user, null, 2));
+          alert('Error: No se pudo identificar al usuario. Por favor, inicia sesión nuevamente.');
+          history.push('/auth/login');
+          return;
+        }
+
+        console.log('✅ Usuario validado correctamente con UID:', user.uid);
 
         const collectionOnHoldRef = collection(dbFirestore, `shoppingData/${user.uid}/items`);
         const collectionPurchaseRef = collection(dbFirestore, `shoppingData/${user.uid}/purchase`);

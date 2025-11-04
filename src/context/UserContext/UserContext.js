@@ -81,32 +81,47 @@ const UserContextProvider = ({children})=> {
         await signInWithEmailAndPassword(auth, email, password)
             .then(  async(userCredential)=> {
 
-                const collectionRef = collection(dbFirestore, 'userData');
+                console.log('✅ Login exitoso - UID:', userCredential.user.uid);
 
+                const collectionRef = collection(dbFirestore, 'userData');
                 const docRef = doc(collectionRef, `${userCredential.user.uid}`)
 
                 await getDoc(docRef)
                 .then( async(snapshot)=> {
 
+                    const additionalData = snapshot.exists() ? snapshot.data() : {};
                     
-                    console.log('data', snapshot.data())
+                    console.log('📄 Datos adicionales de Firestore:', additionalData);
+
+                    const userPayload = {
+                        ...additionalData,
+                        email,
+                        uid: userCredential.user.uid,
+                    };
+
+                    console.log('📦 Payload completo del usuario:', userPayload);
 
                     dispatch({
                         type: types.loginUser,
+                        payload: userPayload
+                    })
+                })
+                .catch((error)=> {
+                    console.error('❌ Error al obtener datos de Firestore:', error);
+                    
+                    // Aún así, guardar el usuario con el UID
+                    dispatch({
+                        type: types.loginUser,
                         payload: {
-                            ...snapshot.data(),
                             email,
                             uid: userCredential.user.uid,
                         }
                     })
                 })
-                .catch((error)=> {
-                    console.log(error);
-                })
                 
 
             }).catch((error)=> {
-                console.log(error)
+                console.error('❌ Error en login:', error);
             })
 
     }
